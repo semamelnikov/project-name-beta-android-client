@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">AroundApplcation</string>
+    <string name="app_name">aroUnd</string>
+    <string name="et_enter_phone">Enter yor phone number</string>
+    <string name="confirm">Confirm</string>
 </resources>
