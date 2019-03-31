@@ -7,7 +7,6 @@
     android:gravity="center_horizontal">
 
     <TextView
-        android:id="@+id/tv_enter_phone_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
@@ -17,11 +16,11 @@
         android:textColor="@color/colorPrimary"/>
 
     <EditText
-        android:id="@+id/et_enter_phone"
+        android:id="@+id/et_enter_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:hint="@string/et_enter_phone"
+        android:inputType="textPassword"
+        android:hint="@string/et_enter_password"
         android:padding="16dp"
         android:layout_margin="16dp"/>
 
