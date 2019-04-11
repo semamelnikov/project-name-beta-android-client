@@ -35,8 +35,8 @@ public class UserListAdapter extends RecyclerView.Adapter<UserViewHolder> {
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Button button = (Button) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_user_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user_list, parent, false);
+        Button button = view.findViewById(R.id.btn_item_user_list);
         return new UserViewHolder(button);
     }
 

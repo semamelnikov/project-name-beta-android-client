@@ -1,10 +1,12 @@
 package com.example.aroundapplcation.services;
 
-import com.example.aroundapplcation.model.PhoneResponse;
-import com.example.aroundapplcation.model.PhoneNumber;
-import com.example.aroundapplcation.model.TokenResponse;
+import com.example.aroundapplcation.model.EntryRequest;
+import com.example.aroundapplcation.model.EntryResponse;
+import com.example.aroundapplcation.model.LoginRequest;
+import com.example.aroundapplcation.model.LoginResponse;
+import com.example.aroundapplcation.model.PhoneCheckRequest;
+import com.example.aroundapplcation.model.PhoneCheckResponse;
 import com.example.aroundapplcation.model.User;
-import com.example.aroundapplcation.model.UserCredentials;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -16,11 +18,15 @@ import retrofit2.http.Path;
 public interface ApiInterface {
 
     @POST("/auth/entry")
-    public Call<PhoneResponse> sendPhoneNumber(@Body PhoneNumber phoneNumber);
+    public Call<EntryResponse> sendPhoneNumber(@Body EntryRequest entryRequest);
 
     @POST("/auth/login")
-    public Call<TokenResponse> sendCredentials(@Body UserCredentials credentials);
+    public Call<LoginResponse> sendCredentials(@Body LoginRequest credentials);
+
+    @POST("/auth/phone/check")
+    public Call<PhoneCheckResponse> sendCode(@Body PhoneCheckRequest phoneCheckRequest);
 
     @GET("/cards/users/{userId}")
     public Call<User> getUser(@Header("Authorization") String accessToken, @Path("userId") int userId);
+
 }

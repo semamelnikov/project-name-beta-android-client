@@ -1,22 +1,18 @@
 package com.example.aroundapplcation.view;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.aroundapplcation.Constants;
 import com.example.aroundapplcation.R;
 import com.example.aroundapplcation.model.User;
+import com.example.aroundapplcation.services.NetworkService;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.connection.AdvertisingOptions;
 import com.google.android.gms.nearby.connection.ConnectionInfo;
@@ -30,31 +26,18 @@ import com.google.android.gms.nearby.connection.Strategy;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class UserListActivity extends AppCompatActivity {
-
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private ArrayList<String> userIds = new ArrayList<>();
-    private ArrayList<String> endpointIds = new ArrayList<>();
-
-    private final EndpointDiscoveryCallback endpointDiscoveryCallback =
-            new EndpointDiscoveryCallback() {
-                @Override
-                public void onEndpointFound(@NonNull String s, @NonNull DiscoveredEndpointInfo discoveredEndpointInfo) {
-                    userIds.add(discoveredEndpointInfo.getEndpointName());
-                    endpointIds.add(s);
-                    mAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onEndpointLost(@NonNull String s) {
-                    int index = endpointIds.indexOf(s);
-                    endpointIds.remove(s);
-                    userIds.remove(index);
-                    mAdapter.notifyDataSetChanged();
-                }
-            };
 
     private final ConnectionLifecycleCallback connectionLifecycleCallback =
             new ConnectionLifecycleCallback() {
@@ -71,6 +54,54 @@ public class UserListActivity extends AppCompatActivity {
                 @Override
                 public void onDisconnected(@NonNull String s) {
 
+                }
+            };
+//    private RecyclerView mRecyclerView;
+//    private RecyclerView.Adapter mAdapter;
+//    private RecyclerView.LayoutManager layoutManager;
+
+    private List<String> devices;
+
+    private ListView listView;
+    private ArrayAdapter<String> adapter;
+
+    private ArrayList<String> userIds = new ArrayList<>();
+    private ArrayList<String> endpointIds = new ArrayList<>();
+
+    private final EndpointDiscoveryCallback endpointDiscoveryCallback =
+            new EndpointDiscoveryCallback() {
+                @Override
+                public void onEndpointFound(@NonNull final String s, @NonNull DiscoveredEndpointInfo discoveredEndpointInfo) {
+//                    userIds.add(discoveredEndpointInfo.getEndpointName());
+                    final int userId = Integer.parseInt(discoveredEndpointInfo.getEndpointName());
+                    String accessToken = getBaseContext().getSharedPreferences(getBaseContext().getString(R.string.aroUnd_preference_file_key), Context.MODE_PRIVATE).getString("accessToken", "unknown");
+                    NetworkService.getInstance()
+                            .getApiInterface()
+                            .getUser(accessToken, userId)
+                            .enqueue(new Callback<User>() {
+                                @Override
+                                public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                                    userIds.add(response.body().getName() + "\n" + response.body().getSurname() + "\n" + response.body().getPhone());
+                                    devices.add(response.body().getName() + "\n" + response.body().getSurname() + "\n" + response.body().getPhone());
+                                    endpointIds.add(s);
+                                    adapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                                    Toast.makeText(getBaseContext(), "Network error...", Toast.LENGTH_LONG).show();
+                                }
+                            });
+//                    endpointIds.add(s);
+//                    mAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onEndpointLost(@NonNull String s) {
+                    int index = endpointIds.indexOf(s);
+                    endpointIds.remove(s);
+                    userIds.remove(index);
+                    adapter.notifyDataSetChanged();
                 }
             };
 
@@ -91,7 +122,13 @@ public class UserListActivity extends AppCompatActivity {
                     Constants.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
 //            }
         } else {
-            mRecyclerView = findViewById(R.id.rv_users);
+            listView = findViewById(R.id.rv_users);
+            devices = new ArrayList<>();
+
+            adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, devices);
+            listView.setAdapter(adapter);
+
+            /*mRecyclerView = findViewById(R.id.rv_users);
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(this);
             mRecyclerView.setLayoutManager(layoutManager);
@@ -99,7 +136,7 @@ public class UserListActivity extends AppCompatActivity {
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.addItemDecoration(
                     new DividerItemDecoration(
-                            mRecyclerView.getContext(), layoutManager.getLayoutDirection()));
+                            mRecyclerView.getContext(), layoutManager.getLayoutDirection()));*/
             startAdvertising();
             startDiscovering();
         }
@@ -111,8 +148,7 @@ public class UserListActivity extends AppCompatActivity {
             case Constants.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     UserListActivity.this.recreate();
-                }
-                else {
+                } else {
                     Toast.makeText(UserListActivity.this, "Permission denied...", Toast.LENGTH_LONG).show();
                 }
             }
@@ -124,7 +160,7 @@ public class UserListActivity extends AppCompatActivity {
                 new AdvertisingOptions.Builder().setStrategy(Strategy.P2P_CLUSTER).build();
         Nearby.getConnectionsClient(this)
                 .startAdvertising(
-                        "ME",
+                        getUserId(),
                         "com.example.aroundapplication",
                         connectionLifecycleCallback,
                         advertisingOptions);
@@ -138,5 +174,12 @@ public class UserListActivity extends AppCompatActivity {
                         "com.example.aroundapplication",
                         endpointDiscoveryCallback,
                         discoveryOptions);
+    }
+
+    private String getUserId() {
+        final long userId = getSharedPreferences(
+                getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE
+        ).getLong("userId", -1);
+        return String.valueOf(userId);
     }
 }

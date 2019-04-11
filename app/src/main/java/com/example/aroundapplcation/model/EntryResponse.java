@@ -3,7 +3,7 @@ package com.example.aroundapplcation.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PhoneResponse {
+public class EntryResponse {
 
     @SerializedName("process")
     @Expose
