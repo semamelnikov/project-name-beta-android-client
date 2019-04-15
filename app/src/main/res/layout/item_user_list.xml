@@ -2,18 +2,32 @@
 <LinearLayout android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:padding="16dp"
     android:id="@+id/ll_item_user_list"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Button
-        android:id="@+id/btn_item_user_list"
+    <TextView
+        android:id="@+id/tv_disp_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:textSize="30sp"
-        android:textColor="@color/colorPrimaryDark"
-        android:textAllCaps="false"
-        android:text="@string/item_user_list_text"
-        android:textAlignment="viewStart"
-        style="?android:attr/borderlessButtonStyle"/>
+        android:textSize="20sp"
+        android:text="Name"
+        android:layout_margin="4dp"/>
+
+    <TextView
+        android:id="@+id/tv_disp_surname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Surnname"
+        android:layout_margin="4dp"/>
+
+    <TextView
+        android:id="@+id/tv_disp_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Phone Number"
+        android:layout_margin="4dp"/>
+
 </LinearLayout>

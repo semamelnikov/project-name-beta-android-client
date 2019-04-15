@@ -9,4 +9,5 @@
     <string name="et_name">Enter your name here</string>
     <string name="et_password1">Enter your password here</string>
     <string name="et_password2">Repeat your password</string>
+    <string name="et_last_name">Enter your last name here</string>
 </resources>

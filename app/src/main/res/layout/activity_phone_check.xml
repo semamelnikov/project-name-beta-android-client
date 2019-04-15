@@ -20,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="text"
+        android:textSize="14sp"
         android:hint="@string/et_enter_code"
         android:padding="16dp"
         android:layout_margin="16dp"/>

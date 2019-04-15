@@ -51,7 +51,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        phoneNumber = getIntent().getStringExtra("phoneNumber");
+        phoneNumber = getSharedPreferences(getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE)
+                .getString("phoneNumber", " ");
     }
 
     public void clickConfirm(View view) {
@@ -73,10 +74,8 @@ public class LoginActivity extends AppCompatActivity {
                                     .putString("accessToken", accessToken)
                                     .putString("refreshToken", refreshToken)
                                     .putLong("userId", userId).apply();
-                            Intent returnIntent = new Intent();
-                            setResult(Activity.RESULT_OK, returnIntent);
-                            returnIntent.putExtra("phoneNumber", phoneNumber);
-                            finish();
+                            Intent intent = new Intent(LoginActivity.this, UserListActivity.class);
+                            startActivity(intent);
                         }
                     }
 

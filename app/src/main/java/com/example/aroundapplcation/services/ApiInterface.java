@@ -6,6 +6,8 @@ import com.example.aroundapplcation.model.LoginRequest;
 import com.example.aroundapplcation.model.LoginResponse;
 import com.example.aroundapplcation.model.PhoneCheckRequest;
 import com.example.aroundapplcation.model.PhoneCheckResponse;
+import com.example.aroundapplcation.model.RegistrationRequest;
+import com.example.aroundapplcation.model.RegistrationResponse;
 import com.example.aroundapplcation.model.User;
 
 import retrofit2.Call;
@@ -29,4 +31,6 @@ public interface ApiInterface {
     @GET("/cards/users/{userId}")
     public Call<User> getUser(@Header("Authorization") String accessToken, @Path("userId") int userId);
 
+    @POST("/auth/registration")
+    public Call<RegistrationResponse> register(@Body RegistrationRequest registrationRequest);
 }
