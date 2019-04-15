@@ -8,6 +8,7 @@
 
     <TextView
         android:id="@+id/tv_disp_name"
+        android:textColor="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
@@ -16,6 +17,7 @@
 
     <TextView
         android:id="@+id/tv_disp_surname"
+        android:textColor="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
@@ -27,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:textColor="@android:color/black"
         android:text="Phone Number"
         android:layout_margin="4dp"/>
 

@@ -66,6 +66,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                 Toast.makeText(getBaseContext(), "Successful!", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                getSharedPreferences(getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE)
+                                        .edit().putLong("userId", registrationResponse.getId()).apply();
                                 startActivity(intent);
                             }
                         }
