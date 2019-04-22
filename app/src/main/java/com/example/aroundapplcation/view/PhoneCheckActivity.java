@@ -9,25 +9,64 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.aroundapplcation.R;
-import com.example.aroundapplcation.model.PhoneCheckRequest;
-import com.example.aroundapplcation.model.PhoneCheckResponse;
+import com.example.aroundapplcation.contracts.PhoneCheckContract;
+import com.example.aroundapplcation.presenter.PhoneCheckPresenter;
+import com.example.aroundapplcation.services.ApiInterface;
 import com.example.aroundapplcation.services.NetworkService;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class PhoneCheckActivity extends AppCompatActivity {
+import static com.example.aroundapplcation.constants.IntentConstants.PHONE_NUMBER;
+import static com.example.aroundapplcation.constants.IntentConstants.REGISTRATION_SESSION_ID;
 
-    private String code = "";
+public class PhoneCheckActivity extends AppCompatActivity implements PhoneCheckContract.View {
+
+    private PhoneCheckContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_check);
 
+        initPresenter();
+
+        initFields();
+
+        presenter.initPhoneCheck();
+    }
+
+    public void clickConfirm(View view) {
+        presenter.sendPhoneCheckRequest();
+    }
+
+    @Override
+    public void showErrorToast(final String errorMessage) {
+        Toast.makeText(getBaseContext(), errorMessage, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void navigateToEntryScreen() {
+        Intent intent = new Intent(PhoneCheckActivity.this, EntryActivity.class);
+        addIntentFlags(intent);
+        startActivity(intent);
+    }
+
+    @Override
+    public void navigateToRegistrationScreen(final String phone, final String registrationSessionId) {
+        Intent intent = new Intent(PhoneCheckActivity.this, RegistrationActivity.class);
+        intent.putExtra(PHONE_NUMBER, phone);
+        intent.putExtra(REGISTRATION_SESSION_ID, registrationSessionId);
+        addIntentFlags(intent);
+        startActivity(intent);
+    }
+
+    private void initPresenter() {
+        final Intent intent = getIntent();
+        final ApiInterface api = NetworkService.getInstance().getApiInterface();
+        presenter = new PhoneCheckPresenter(this, intent, api);
+    }
+
+    private void initFields() {
         EditText editText = findViewById(R.id.et_enter_code);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -42,55 +81,12 @@ public class PhoneCheckActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                code = s.toString();
+                presenter.saveCode(s.toString());
             }
         });
     }
 
-    public void clickConfirm(View view) {
-        final String registrationSessionId = getIntent().getStringExtra("registrationSessionId");
-        final String phoneNumber = getIntent().getStringExtra("phoneNumber");
-        NetworkService
-                .getInstance()
-                .getApiInterface()
-                .sendCode(new PhoneCheckRequest(
-                        registrationSessionId,
-                        phoneNumber,
-                        code
-                ))
-                .enqueue(new Callback<PhoneCheckResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<PhoneCheckResponse> call, @NonNull Response<PhoneCheckResponse> response) {
-                        PhoneCheckResponse phoneCheckResponse = response.body();
-                        if (phoneCheckResponse != null) {
-                            if (phoneCheckResponse.isCodeChecked()) {
-                                Intent intent = new Intent(PhoneCheckActivity.this, RegistrationActivity.class);
-                                intent.putExtra("phoneNumber", phoneNumber);
-                                intent.putExtra("registrationSessionId", registrationSessionId);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                            } else {
-                                if (phoneCheckResponse.isCodeInvalid()) {
-                                    Toast.makeText(getBaseContext(), "Sorry, the code you entered is incorrect!", Toast.LENGTH_LONG).show();
-                                }
-                                if (phoneCheckResponse.isExpirationTimeOver()) {
-                                    Toast.makeText(getBaseContext(), "Sorry, the code you entered was expired!", Toast.LENGTH_LONG).show();
-                                }
-                                if (phoneCheckResponse.isAttemptLimitOver()) {
-                                    Toast.makeText(getBaseContext(),
-                                            "Sorry, you reached the limit of attempts to enter code!", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(PhoneCheckActivity.this, EntryActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<PhoneCheckResponse> call, @NonNull Throwable t) {
-                        Toast.makeText(getBaseContext(), "Network error...", Toast.LENGTH_LONG).show();
-                    }
-                });
+    private void addIntentFlags(final Intent intent) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 }

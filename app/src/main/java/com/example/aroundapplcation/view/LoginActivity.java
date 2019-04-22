@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
-    public void showErrorToast(String errorMessage) {
+    public void showErrorToast(final String errorMessage) {
         Toast.makeText(getBaseContext(), errorMessage, Toast.LENGTH_LONG).show();
     }
 

@@ -16,6 +16,9 @@ public class PhoneCheckRequest {
     @Expose
     private String code;
 
+    public PhoneCheckRequest() {
+    }
+
     public PhoneCheckRequest(String registrationSessionId, String phone, String code) {
         this.registrationSessionId = registrationSessionId;
         this.phone = phone;
