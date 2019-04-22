@@ -6,7 +6,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aroundapplcation.R;
-import com.example.aroundapplcation.model.User;
+import com.example.aroundapplcation.model.BusinessCard;
 import com.example.aroundapplcation.services.NetworkService;
 
 import androidx.annotation.NonNull;
@@ -24,7 +24,7 @@ public class BusinessCardActivity extends AppCompatActivity {
     private TextView tvPhone;
 
     private Integer currentBusinessCardId;
-    private User currentBusinessCard;
+    private BusinessCard currentBusinessCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +41,9 @@ public class BusinessCardActivity extends AppCompatActivity {
         NetworkService.getInstance().getApiInterface().getBusinessCard(
                 accessToken,
                 currentBusinessCardId
-        ).enqueue(new Callback<User>() {
+        ).enqueue(new Callback<BusinessCard>() {
             @Override
-            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+            public void onResponse(@NonNull Call<BusinessCard> call, @NonNull Response<BusinessCard> response) {
                 currentBusinessCard = response.body();
                 tvName.setText(currentBusinessCard.getName());
                 tvSurname.setText(currentBusinessCard.getSurname());
@@ -52,7 +52,7 @@ public class BusinessCardActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BusinessCard> call, @NonNull Throwable t) {
                 Toast.makeText(getBaseContext(), "Network error...", Toast.LENGTH_LONG).show();
             }
         });

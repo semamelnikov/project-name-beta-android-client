@@ -8,7 +8,7 @@ import com.example.aroundapplcation.model.PhoneCheckRequest;
 import com.example.aroundapplcation.model.PhoneCheckResponse;
 import com.example.aroundapplcation.model.RegistrationRequest;
 import com.example.aroundapplcation.model.RegistrationResponse;
-import com.example.aroundapplcation.model.User;
+import com.example.aroundapplcation.model.BusinessCard;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,7 +20,7 @@ import retrofit2.http.Path;
 public interface ApiInterface {
 
     @POST("/auth/entry")
-    Call<EntryResponse> sendPhoneNumber(@Body EntryRequest entryRequest);
+    Call<EntryResponse> sendEntryRequest(@Body EntryRequest entryRequest);
 
     @POST("/auth/login")
     Call<LoginResponse> sendCredentials(@Body LoginRequest credentials);
@@ -29,11 +29,11 @@ public interface ApiInterface {
     Call<PhoneCheckResponse> sendCode(@Body PhoneCheckRequest phoneCheckRequest);
 
     @GET("/cards/users/{userId}")
-    Call<User> getUser(@Header("Authorization") String accessToken, @Path("userId") int userId);
+    Call<BusinessCard> getUser(@Header("Authorization") String accessToken, @Path("userId") int userId);
 
     @POST("/auth/registration")
     Call<RegistrationResponse> register(@Body RegistrationRequest registrationRequest);
 
     @GET("/cards/{id}")
-    Call<User> getBusinessCard(@Header("Authorization") String accessToken, @Path("id") int id);
+    Call<BusinessCard> getBusinessCard(@Header("Authorization") String accessToken, @Path("id") int id);
 }

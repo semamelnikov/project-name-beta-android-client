@@ -11,9 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.aroundapplcation.Constants;
+import com.example.aroundapplcation.constants.Constants;
 import com.example.aroundapplcation.R;
-import com.example.aroundapplcation.model.User;
+import com.example.aroundapplcation.model.BusinessCard;
 import com.example.aroundapplcation.services.NetworkService;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.connection.AdvertisingOptions;
@@ -77,9 +77,9 @@ public class UserListActivity extends AppCompatActivity {
                     NetworkService.getInstance()
                             .getApiInterface()
                             .getUser(accessToken, userId)
-                            .enqueue(new Callback<User>() {
+                            .enqueue(new Callback<BusinessCard>() {
                                 @Override
-                                public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                                public void onResponse(@NonNull Call<BusinessCard> call, @NonNull Response<BusinessCard> response) {
                                     businessCardIds.add(response.body().getId());
                                     devices.add(response.body().getName() + "\n" + response.body().getSurname() + "\n" + response.body().getPhone());
                                     endpointIds.add(s);
@@ -87,7 +87,7 @@ public class UserListActivity extends AppCompatActivity {
                                 }
 
                                 @Override
-                                public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                                public void onFailure(@NonNull Call<BusinessCard> call, @NonNull Throwable t) {
                                     Toast.makeText(getBaseContext(), "Network error...", Toast.LENGTH_LONG).show();
                                 }
                             });

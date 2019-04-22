@@ -1,50 +1,49 @@
 package com.example.aroundapplcation.view;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.aroundapplcation.R;
-import com.example.aroundapplcation.model.EntryRequest;
-import com.example.aroundapplcation.model.EntryResponse;
+import com.example.aroundapplcation.contracts.EntryContract;
+import com.example.aroundapplcation.presenter.EntryPresenter;
 import com.example.aroundapplcation.services.ApiInterface;
 import com.example.aroundapplcation.services.NetworkService;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class EntryActivity extends AppCompatActivity {
+import static com.example.aroundapplcation.constants.IntentConstants.PHONE_NUMBER;
+import static com.example.aroundapplcation.constants.IntentConstants.REGISTRATION_SESSION_ID;
 
-    private ApiInterface api;
-    private String phoneNumber = "";
+public class EntryActivity extends AppCompatActivity implements EntryContract.View {
+
+    private EntryContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
 
-        api = NetworkService.getInstance().getApiInterface();
+        initPresenter();
+
         initPhoneField();
     }
 
     public void confirmEntryPhone(View view) {
-        savePhoneNumberInPreferences();
-        api.sendPhoneNumber(new EntryRequest(phoneNumber)).enqueue(getEntryRequestCallback());
+        presenter.saveExistingPhoneNumberToStorage();
+        presenter.sendEntryRequest();
     }
 
-    private void savePhoneNumberInPreferences() {
-        getSharedPreferences(getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE)
-                .edit()
-                .putString("phoneNumber", phoneNumber)
-                .apply();
+    private void initPresenter() {
+        final SharedPreferences sharedPreferences = getSharedPreferences(
+                getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE);
+        final ApiInterface api = NetworkService.getInstance().getApiInterface();
+        presenter = new EntryPresenter(this, sharedPreferences, api);
     }
 
     private void initPhoneField() {
@@ -55,80 +54,53 @@ public class EntryActivity extends AppCompatActivity {
     private TextWatcher getPhoneEditTextChangeListener() {
         return new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
-                phoneNumber = s.toString();
+                presenter.savePhoneNumber(s.toString());
             }
         };
     }
 
-    private void skipPhoneCheck(String registrationSessionId, String phoneNumber) {
-        Intent intent = new Intent(EntryActivity.this, RegistrationActivity.class);
-        intent.putExtra("phoneNumber", phoneNumber);
-        intent.putExtra("registrationSessionId", registrationSessionId);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    @Override
+    public void navigateToLoginScreen(final String phoneNumber) {
+        Intent intent = new Intent(EntryActivity.this, LoginActivity.class);
+        intent.putExtra(PHONE_NUMBER, phoneNumber);
+        addIntentFlags(intent);
         startActivity(intent);
     }
 
-    private Callback<EntryResponse> getEntryRequestCallback() {
-        return new Callback<EntryResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<EntryResponse> call, @NonNull Response<EntryResponse> response) {
-                EntryResponse entryResponse = response.body();
-                if (entryResponse != null) {
+    @Override
+    public void navigateToRegistrationScreen(final String phoneNumber, final String registrationSessionId) {
+        Intent intent = new Intent(EntryActivity.this, RegistrationActivity.class);
+        intent.putExtra(PHONE_NUMBER, phoneNumber);
+        intent.putExtra(REGISTRATION_SESSION_ID, registrationSessionId);
+        addIntentFlags(intent);
+        startActivity(intent);
+    }
 
-                    Log.d("Entry response",
-                            entryResponse.getRegistrationSessionId() + "\n" +
-                                    entryResponse.getProcess() + "\n" +
-                                    entryResponse.isCodeSent() + "\n" +
-                                    entryResponse.isPhoneChecked() + "\n" +
-                                    entryResponse.isProcessAvailable());
 
-                    if (entryResponse.getProcess().equals("REGISTRATION")) {
-                        if (!entryResponse.isProcessAvailable()) {
-                            Toast.makeText(
-                                    getBaseContext(),
-                                    "Sorry, this number was banned for some reason...",
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                            return;
-                        }
-                        if (entryResponse.isPhoneChecked()) {
-                            skipPhoneCheck(entryResponse.getRegistrationSessionId(), phoneNumber);
-                            return;
-                        }
-                        if (!entryResponse.isCodeSent()) {
-                            Toast.makeText(
-                                    getBaseContext(),
-                                    "Sorry, SMS can't be sent. Try again later.",
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                            return;
-                        }
-                        Intent intent = new Intent(EntryActivity.this, PhoneCheckActivity.class);
-                        intent.putExtra("phoneNumber", phoneNumber);
-                        intent.putExtra("registrationSessionId", entryResponse.getRegistrationSessionId());
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    } else if (entryResponse.getProcess().equals("LOGIN")) {
-                        Intent intent = new Intent(EntryActivity.this, LoginActivity.class);
-                        intent.putExtra("phoneNumber", phoneNumber);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
-                }
-            }
+    @Override
+    public void navigateToPhoneCheckScreen(final String phoneNumber, final String registrationSessionId) {
+        Intent intent = new Intent(EntryActivity.this, PhoneCheckActivity.class);
+        intent.putExtra(PHONE_NUMBER, phoneNumber);
+        intent.putExtra(REGISTRATION_SESSION_ID, registrationSessionId);
+        addIntentFlags(intent);
+        startActivity(intent);
+    }
 
-            @Override
-            public void onFailure(@NonNull Call<EntryResponse> call, @NonNull Throwable t) {
-                Toast.makeText(EntryActivity.this, "Network error...", Toast.LENGTH_LONG).show();
-                Log.e("Entry error", t.getMessage());
-            }
-        };
+    @Override
+    public void showErrorToast(final String errorMessage) {
+        Toast.makeText(getBaseContext(), errorMessage, Toast.LENGTH_LONG).show();
+    }
+
+    private void addIntentFlags(final Intent intent) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 }

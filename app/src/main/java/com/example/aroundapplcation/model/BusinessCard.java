@@ -3,7 +3,7 @@ package com.example.aroundapplcation.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class BusinessCard {
 
     @SerializedName("id")
     @Expose
@@ -25,7 +25,10 @@ public class User {
     @Expose
     private String phone;
 
-    public User(int id, int userId, String name, String surname, String phone) {
+    public BusinessCard() {
+    }
+
+    public BusinessCard(int id, int userId, String name, String surname, String phone) {
         this.id = id;
         this.userId = userId;
         this.name = name;

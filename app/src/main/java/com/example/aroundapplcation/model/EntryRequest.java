@@ -8,6 +8,9 @@ public class EntryRequest {
     @Expose
     private String phoneNumber;
 
+    public EntryRequest() {
+    }
+
     public EntryRequest(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
