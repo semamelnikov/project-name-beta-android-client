@@ -36,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserListActivity extends AppCompatActivity {
+public class BusinessCardsActivity extends AppCompatActivity {
 
     private final ConnectionLifecycleCallback connectionLifecycleCallback =
             new ConnectionLifecycleCallback() {
@@ -109,14 +109,14 @@ public class UserListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
 
-        if (ContextCompat.checkSelfPermission(UserListActivity.this,
+        if (ContextCompat.checkSelfPermission(BusinessCardsActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(UserListActivity.this,
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(BusinessCardsActivity.this,
 //                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
 //                // TODO Permission request explanation
 //            } else {
-            ActivityCompat.requestPermissions(UserListActivity.this,
+            ActivityCompat.requestPermissions(BusinessCardsActivity.this,
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     Constants.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
 //            }
@@ -126,7 +126,7 @@ public class UserListActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     final Integer businessCardId = businessCardIds.get(position);
-                    Intent intent = new Intent(UserListActivity.this, BusinessCardActivity.class);
+                    Intent intent = new Intent(BusinessCardsActivity.this, BusinessCardActivity.class);
                     intent.putExtra(BusinessCardActivity.BUSINESS_CARD_ID, businessCardId);
                     startActivity(intent);
                 }
@@ -155,9 +155,9 @@ public class UserListActivity extends AppCompatActivity {
         switch (requestCode) {
             case Constants.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    UserListActivity.this.recreate();
+                    BusinessCardsActivity.this.recreate();
                 } else {
-                    Toast.makeText(UserListActivity.this, "Permission denied...", Toast.LENGTH_LONG).show();
+                    Toast.makeText(BusinessCardsActivity.this, "Permission denied...", Toast.LENGTH_LONG).show();
                 }
             }
         }

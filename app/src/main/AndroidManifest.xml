@@ -19,7 +19,7 @@
         <activity android:name=".view.BusinessCardActivity"></activity>
         <activity android:name=".view.RegistrationActivity" />
         <activity android:name=".view.PhoneCheckActivity" />
-        <activity android:name=".view.UserListActivity" />
+        <activity android:name=".view.BusinessCardsActivity" />
         <activity android:name=".view.LoginActivity" />
         <activity android:name=".view.EntryActivity">
             <intent-filter>

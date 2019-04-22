@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     public void navigateToBusinessCardsScreen() {
-        Intent intent = new Intent(LoginActivity.this, UserListActivity.class);
+        Intent intent = new Intent(LoginActivity.this, BusinessCardsActivity.class);
         startActivity(intent);
     }
 
