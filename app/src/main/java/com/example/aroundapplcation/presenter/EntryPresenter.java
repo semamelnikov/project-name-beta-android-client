@@ -65,7 +65,7 @@ public class EntryPresenter implements EntryContract.Presenter {
 
                     if (entryResponse.getProcess().equals("REGISTRATION")) {
                         if (!entryResponse.isProcessAvailable()) {
-                            view.showErrorToast("Sorry, this number was banned for some reason.");
+                            view.showToast("Sorry, this number was banned for some reason.");
                             return;
                         }
                         if (entryResponse.isPhoneChecked()) {
@@ -75,7 +75,7 @@ public class EntryPresenter implements EntryContract.Presenter {
                             return;
                         }
                         if (!entryResponse.isCodeSent()) {
-                            view.showErrorToast("Sorry, SMS can't be sent. Try again later.");
+                            view.showToast("Sorry, SMS can't be sent. Try again later.");
                             return;
                         }
                         view.navigateToPhoneCheckScreen(
@@ -89,7 +89,7 @@ public class EntryPresenter implements EntryContract.Presenter {
 
             @Override
             public void onFailure(@NonNull Call<EntryResponse> call, @NonNull Throwable t) {
-                view.showErrorToast("Network error. Please, try later.");
+                view.showToast("Network error. Please, try later.");
                 Log.e("Entry error", t.getMessage());
             }
         };

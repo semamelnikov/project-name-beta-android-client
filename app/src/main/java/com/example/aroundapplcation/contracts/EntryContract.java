@@ -8,7 +8,7 @@ public interface EntryContract {
 
         void navigateToPhoneCheckScreen(final String phoneNumber, final String registrationSessionId);
 
-        void showErrorToast(final String errorMessage);
+        void showToast(final String message);
     }
 
     interface Presenter {

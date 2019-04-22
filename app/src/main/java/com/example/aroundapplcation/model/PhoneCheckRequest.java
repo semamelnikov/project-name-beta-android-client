@@ -19,12 +19,6 @@ public class PhoneCheckRequest {
     public PhoneCheckRequest() {
     }
 
-    public PhoneCheckRequest(String registrationSessionId, String phone, String code) {
-        this.registrationSessionId = registrationSessionId;
-        this.phone = phone;
-        this.code = code;
-    }
-
     public String getRegistrationSessionId() {
         return registrationSessionId;
     }

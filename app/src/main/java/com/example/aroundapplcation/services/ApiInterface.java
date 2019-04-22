@@ -32,7 +32,7 @@ public interface ApiInterface {
     Call<BusinessCard> getUser(@Header("Authorization") String accessToken, @Path("userId") int userId);
 
     @POST("/auth/registration")
-    Call<RegistrationResponse> register(@Body RegistrationRequest registrationRequest);
+    Call<RegistrationResponse> sendRegistrationRequest(@Body RegistrationRequest registrationRequest);
 
     @GET("/cards/{id}")
     Call<BusinessCard> getBusinessCard(@Header("Authorization") String accessToken, @Path("id") int id);

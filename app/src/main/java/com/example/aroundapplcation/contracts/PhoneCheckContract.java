@@ -4,9 +4,9 @@ public interface PhoneCheckContract {
     interface View {
         void navigateToRegistrationScreen(final String phone, final String registrationSessionId);
 
-        void showErrorToast(final String errorMessage);
-
         void navigateToEntryScreen();
+
+        void showToast(final String message);
     }
 
     interface Presenter {

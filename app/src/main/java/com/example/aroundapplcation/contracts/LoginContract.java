@@ -4,7 +4,7 @@ public interface LoginContract {
     interface View {
         void navigateToBusinessCardsScreen();
 
-        void showErrorToast(final String errorMessage);
+        void showToast(final String message);
     }
 
     interface Presenter {

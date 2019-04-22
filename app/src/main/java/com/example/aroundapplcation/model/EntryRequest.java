@@ -11,10 +11,6 @@ public class EntryRequest {
     public EntryRequest() {
     }
 
-    public EntryRequest(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }

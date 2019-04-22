@@ -29,13 +29,8 @@ public class RegistrationRequest {
     @Expose
     private String passwordCheck;
 
-    public RegistrationRequest(String registrationSessionId, String phone, String name, String surname, String password, String passwordCheck) {
-        this.registrationSessionId = registrationSessionId;
-        this.phone = phone;
-        this.name = name;
-        this.surname = surname;
-        this.password = password;
-        this.passwordCheck = passwordCheck;
+    public RegistrationRequest() {
+
     }
 
     public String getRegistrationSessionId() {
@@ -84,12 +79,5 @@ public class RegistrationRequest {
 
     public void setPasswordCheck(String passwordCheck) {
         this.passwordCheck = passwordCheck;
-    }
-
-    public String toString() {
-        return "Session id: " + registrationSessionId + "\n" +
-                "Phone: " + phone + "\n" +
-                "Name: " + name + "\n" +
-                "Surname: " + surname + "\n";
     }
 }

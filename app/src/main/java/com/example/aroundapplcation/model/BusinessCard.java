@@ -28,14 +28,6 @@ public class BusinessCard {
     public BusinessCard() {
     }
 
-    public BusinessCard(int id, int userId, String name, String surname, String phone) {
-        this.id = id;
-        this.userId = userId;
-        this.name = name;
-        this.surname = surname;
-        this.phone = phone;
-    }
-
     public int getId() {
         return id;
     }

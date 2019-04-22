@@ -16,11 +16,6 @@ public class LoginRequest {
     public LoginRequest() {
     }
 
-    public LoginRequest(String phoneNumber, String password) {
-        this.phoneNumber = phoneNumber;
-        this.password = password;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }

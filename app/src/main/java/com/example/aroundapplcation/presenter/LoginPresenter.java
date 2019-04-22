@@ -71,7 +71,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
             @Override
             public void onFailure(@NonNull Call<LoginResponse> call, @NonNull Throwable t) {
-                view.showErrorToast("Network error. Please, try later.");
+                view.showToast("Network error. Please, try later.");
                 Log.e("Login error", t.getMessage());
             }
         };

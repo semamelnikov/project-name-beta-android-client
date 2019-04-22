@@ -58,13 +58,13 @@ public class PhoneCheckPresenter implements PhoneCheckContract.Presenter {
                                 phoneCheckRequest.getRegistrationSessionId());
                     } else {
                         if (phoneCheckResponse.isCodeInvalid()) {
-                            view.showErrorToast("Sorry, the code you entered is incorrect!");
+                            view.showToast("Sorry, the code you entered is incorrect!");
                         }
                         if (phoneCheckResponse.isExpirationTimeOver()) {
-                            view.showErrorToast("Sorry, the code you entered was expired!");
+                            view.showToast("Sorry, the code you entered was expired!");
                         }
                         if (phoneCheckResponse.isAttemptLimitOver()) {
-                            view.showErrorToast("Sorry, you reached the limit of attempts to enter code!");
+                            view.showToast("Sorry, you reached the limit of attempts to enter code!");
                             view.navigateToEntryScreen();
                         }
                     }
@@ -73,7 +73,7 @@ public class PhoneCheckPresenter implements PhoneCheckContract.Presenter {
 
             @Override
             public void onFailure(@NonNull Call<PhoneCheckResponse> call, @NonNull Throwable t) {
-                view.showErrorToast("Network error. Please, try later.");
+                view.showToast("Network error. Please, try later.");
                 Log.e("Login error", t.getMessage());
             }
         };
