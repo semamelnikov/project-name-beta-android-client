@@ -18,8 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class BusinessCardActivity extends AppCompatActivity implements BusinessCardContract.View {
 
-    public static final String BUSINESS_CARD_ID = "businessCardId";
-
     private BusinessCardContract.Presenter presenter;
 
     private TextView tvName;

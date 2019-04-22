@@ -3,6 +3,7 @@ package com.example.aroundapplcation.view;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -11,98 +12,30 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.aroundapplcation.constants.Constants;
 import com.example.aroundapplcation.R;
-import com.example.aroundapplcation.model.BusinessCard;
+import com.example.aroundapplcation.constants.Constants;
+import com.example.aroundapplcation.contracts.BusinessCardsContract;
+import com.example.aroundapplcation.presenter.BusinessCardsPresenter;
+import com.example.aroundapplcation.services.ApiInterface;
 import com.example.aroundapplcation.services.NetworkService;
 import com.google.android.gms.nearby.Nearby;
-import com.google.android.gms.nearby.connection.AdvertisingOptions;
-import com.google.android.gms.nearby.connection.ConnectionInfo;
-import com.google.android.gms.nearby.connection.ConnectionLifecycleCallback;
-import com.google.android.gms.nearby.connection.ConnectionResolution;
-import com.google.android.gms.nearby.connection.DiscoveredEndpointInfo;
-import com.google.android.gms.nearby.connection.DiscoveryOptions;
-import com.google.android.gms.nearby.connection.EndpointDiscoveryCallback;
-import com.google.android.gms.nearby.connection.Strategy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class BusinessCardsActivity extends AppCompatActivity {
+import static com.example.aroundapplcation.constants.IntentConstants.BUSINESS_CARD_ID;
 
-    private final ConnectionLifecycleCallback connectionLifecycleCallback =
-            new ConnectionLifecycleCallback() {
-                @Override
-                public void onConnectionInitiated(@NonNull String s, @NonNull ConnectionInfo connectionInfo) {
+public class BusinessCardsActivity extends AppCompatActivity implements BusinessCardsContract.View {
 
-                }
+    private BusinessCardsContract.Presenter presenter;
 
-                @Override
-                public void onConnectionResult(@NonNull String s, @NonNull ConnectionResolution connectionResolution) {
-
-                }
-
-                @Override
-                public void onDisconnected(@NonNull String s) {
-
-                }
-            };
-//    private RecyclerView mRecyclerView;
-//    private RecyclerView.Adapter mAdapter;
-//    private RecyclerView.LayoutManager layoutManager;
-
-    private List<String> devices;
-
-    private ListView listView;
+    // TODO This adapter is temporary.
     private ArrayAdapter<String> adapter;
-
-    private ArrayList<Integer> businessCardIds = new ArrayList<>();
-    private ArrayList<String> endpointIds = new ArrayList<>();
-
-    private final EndpointDiscoveryCallback endpointDiscoveryCallback =
-            new EndpointDiscoveryCallback() {
-                @Override
-                public void onEndpointFound(@NonNull final String s, @NonNull DiscoveredEndpointInfo discoveredEndpointInfo) {
-//                    businessCardIds.add(discoveredEndpointInfo.getEndpointName());
-                    final int userId = Integer.parseInt(discoveredEndpointInfo.getEndpointName());
-                    String accessToken = getBaseContext().getSharedPreferences(getBaseContext().getString(R.string.aroUnd_preference_file_key), Context.MODE_PRIVATE).getString("accessToken", "unknown");
-                    NetworkService.getInstance()
-                            .getApiInterface()
-                            .getUser(accessToken, userId)
-                            .enqueue(new Callback<BusinessCard>() {
-                                @Override
-                                public void onResponse(@NonNull Call<BusinessCard> call, @NonNull Response<BusinessCard> response) {
-                                    businessCardIds.add(response.body().getId());
-                                    devices.add(response.body().getName() + "\n" + response.body().getSurname() + "\n" + response.body().getPhone());
-                                    endpointIds.add(s);
-                                    adapter.notifyDataSetChanged();
-                                }
-
-                                @Override
-                                public void onFailure(@NonNull Call<BusinessCard> call, @NonNull Throwable t) {
-                                    Toast.makeText(getBaseContext(), "Network error...", Toast.LENGTH_LONG).show();
-                                }
-                            });
-//                    endpointIds.add(s);
-//                    mAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onEndpointLost(@NonNull String s) {
-                    int index = endpointIds.indexOf(s);
-                    endpointIds.remove(s);
-                    businessCardIds.remove(index);
-                    adapter.notifyDataSetChanged();
-                }
-            };
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,41 +45,17 @@ public class BusinessCardsActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(BusinessCardsActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(BusinessCardsActivity.this,
-//                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
-//                // TODO Permission request explanation
-//            } else {
             ActivityCompat.requestPermissions(BusinessCardsActivity.this,
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     Constants.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
-//            }
         } else {
-            listView = findViewById(R.id.rv_users);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    final Integer businessCardId = businessCardIds.get(position);
-                    Intent intent = new Intent(BusinessCardsActivity.this, BusinessCardActivity.class);
-                    intent.putExtra(BusinessCardActivity.BUSINESS_CARD_ID, businessCardId);
-                    startActivity(intent);
-                }
-            });
-            devices = new ArrayList<>();
+            initPresenter();
 
-            adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, devices);
-            listView.setAdapter(adapter);
+            initFields();
 
-            /*mRecyclerView = findViewById(R.id.rv_users);
-            mRecyclerView.setHasFixedSize(true);
-            layoutManager = new LinearLayoutManager(this);
-            mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new UserListAdapter(businessCardIds, this);
-            mRecyclerView.setAdapter(mAdapter);
-            mRecyclerView.addItemDecoration(
-                    new DividerItemDecoration(
-                            mRecyclerView.getContext(), layoutManager.getLayoutDirection()));*/
-            startAdvertising();
-            startDiscovering();
+            presenter.startAdvertising();
+
+            presenter.startDiscovering();
         }
     }
 
@@ -163,31 +72,45 @@ public class BusinessCardsActivity extends AppCompatActivity {
         }
     }
 
-    private void startAdvertising() {
-        AdvertisingOptions advertisingOptions =
-                new AdvertisingOptions.Builder().setStrategy(Strategy.P2P_CLUSTER).build();
-        Nearby.getConnectionsClient(this)
-                .startAdvertising(
-                        getUserId(),
-                        "com.example.aroundapplication",
-                        connectionLifecycleCallback,
-                        advertisingOptions);
+    @Override
+    public void showToast(final String message) {
+        Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
     }
 
-    private void startDiscovering() {
-        DiscoveryOptions discoveryOptions =
-                new DiscoveryOptions.Builder().setStrategy(Strategy.P2P_CLUSTER).build();
-        Nearby.getConnectionsClient(this)
-                .startDiscovery(
-                        "com.example.aroundapplication",
-                        endpointDiscoveryCallback,
-                        discoveryOptions);
+    @Override
+    public void initAdapter(final List items) {
+        adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, items);
+        listView.setAdapter(adapter);
     }
 
-    private String getUserId() {
-        final long userId = getSharedPreferences(
-                getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE
-        ).getLong("userId", -1);
-        return String.valueOf(userId);
+    @Override
+    public void updateBusinessCards() {
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void navigateToBusinessCardScreen(final Integer businessCardId) {
+        Intent intent = new Intent(BusinessCardsActivity.this, BusinessCardActivity.class);
+        intent.putExtra(BUSINESS_CARD_ID, businessCardId);
+        startActivity(intent);
+    }
+
+    private void initPresenter() {
+        final ApiInterface api = NetworkService.getInstance().getApiInterface();
+        final SharedPreferences sharedPreferences = getSharedPreferences(
+                getString(R.string.aroUnd_preference_file_key), Context.MODE_PRIVATE);
+        presenter = new BusinessCardsPresenter(this, Nearby.getConnectionsClient(this), sharedPreferences, api);
+    }
+
+    private void initFields() {
+        listView = findViewById(R.id.lv_users);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                presenter.loadBusinessCardScreen(position);
+            }
+        });
+
+        presenter.initAdapter();
     }
 }

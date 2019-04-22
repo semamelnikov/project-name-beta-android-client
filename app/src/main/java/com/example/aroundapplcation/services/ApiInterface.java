@@ -29,7 +29,7 @@ public interface ApiInterface {
     Call<PhoneCheckResponse> sendCode(@Body PhoneCheckRequest phoneCheckRequest);
 
     @GET("/cards/users/{userId}")
-    Call<BusinessCard> getUser(@Header("Authorization") String accessToken, @Path("userId") int userId);
+    Call<BusinessCard> getBusinessCardByUserId(@Header("Authorization") String accessToken, @Path("userId") int userId);
 
     @POST("/auth/registration")
     Call<RegistrationResponse> sendRegistrationRequest(@Body RegistrationRequest registrationRequest);
