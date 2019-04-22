@@ -23,7 +23,7 @@ public interface ApiInterface {
     Call<EntryResponse> sendEntryRequest(@Body EntryRequest entryRequest);
 
     @POST("/auth/login")
-    Call<LoginResponse> sendCredentials(@Body LoginRequest credentials);
+    Call<LoginResponse> sendLoginRequest(@Body LoginRequest credentials);
 
     @POST("/auth/phone/check")
     Call<PhoneCheckResponse> sendCode(@Body PhoneCheckRequest phoneCheckRequest);

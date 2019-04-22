@@ -13,6 +13,9 @@ public class LoginRequest {
     @Expose
     private String password;
 
+    public LoginRequest() {
+    }
+
     public LoginRequest(String phoneNumber, String password) {
         this.phoneNumber = phoneNumber;
         this.password = password;

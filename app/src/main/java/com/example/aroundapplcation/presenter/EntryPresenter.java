@@ -13,7 +13,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.aroundapplcation.constants.SharedPreferensesConstants.PHONE_NUMBER;
+import static com.example.aroundapplcation.constants.SharedPreferencesConstants.PHONE_NUMBER;
 
 public class EntryPresenter implements EntryContract.Presenter {
 

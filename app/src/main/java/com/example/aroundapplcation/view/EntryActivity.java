@@ -39,6 +39,37 @@ public class EntryActivity extends AppCompatActivity implements EntryContract.Vi
         presenter.sendEntryRequest();
     }
 
+    @Override
+    public void navigateToLoginScreen(final String phoneNumber) {
+        Intent intent = new Intent(EntryActivity.this, LoginActivity.class);
+        intent.putExtra(PHONE_NUMBER, phoneNumber);
+        addIntentFlags(intent);
+        startActivity(intent);
+    }
+
+    @Override
+    public void navigateToRegistrationScreen(final String phoneNumber, final String registrationSessionId) {
+        Intent intent = new Intent(EntryActivity.this, RegistrationActivity.class);
+        intent.putExtra(PHONE_NUMBER, phoneNumber);
+        intent.putExtra(REGISTRATION_SESSION_ID, registrationSessionId);
+        addIntentFlags(intent);
+        startActivity(intent);
+    }
+
+    @Override
+    public void navigateToPhoneCheckScreen(final String phoneNumber, final String registrationSessionId) {
+        Intent intent = new Intent(EntryActivity.this, PhoneCheckActivity.class);
+        intent.putExtra(PHONE_NUMBER, phoneNumber);
+        intent.putExtra(REGISTRATION_SESSION_ID, registrationSessionId);
+        addIntentFlags(intent);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showErrorToast(final String errorMessage) {
+        Toast.makeText(getBaseContext(), errorMessage, Toast.LENGTH_LONG).show();
+    }
+
     private void initPresenter() {
         final SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE);
@@ -66,38 +97,6 @@ public class EntryActivity extends AppCompatActivity implements EntryContract.Vi
                 presenter.savePhoneNumber(s.toString());
             }
         };
-    }
-
-    @Override
-    public void navigateToLoginScreen(final String phoneNumber) {
-        Intent intent = new Intent(EntryActivity.this, LoginActivity.class);
-        intent.putExtra(PHONE_NUMBER, phoneNumber);
-        addIntentFlags(intent);
-        startActivity(intent);
-    }
-
-    @Override
-    public void navigateToRegistrationScreen(final String phoneNumber, final String registrationSessionId) {
-        Intent intent = new Intent(EntryActivity.this, RegistrationActivity.class);
-        intent.putExtra(PHONE_NUMBER, phoneNumber);
-        intent.putExtra(REGISTRATION_SESSION_ID, registrationSessionId);
-        addIntentFlags(intent);
-        startActivity(intent);
-    }
-
-
-    @Override
-    public void navigateToPhoneCheckScreen(final String phoneNumber, final String registrationSessionId) {
-        Intent intent = new Intent(EntryActivity.this, PhoneCheckActivity.class);
-        intent.putExtra(PHONE_NUMBER, phoneNumber);
-        intent.putExtra(REGISTRATION_SESSION_ID, registrationSessionId);
-        addIntentFlags(intent);
-        startActivity(intent);
-    }
-
-    @Override
-    public void showErrorToast(final String errorMessage) {
-        Toast.makeText(getBaseContext(), errorMessage, Toast.LENGTH_LONG).show();
     }
 
     private void addIntentFlags(final Intent intent) {
