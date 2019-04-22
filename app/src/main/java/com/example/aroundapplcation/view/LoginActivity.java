@@ -1,12 +1,5 @@
 package com.example.aroundapplcation.view;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,9 +11,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.aroundapplcation.R;
-import com.example.aroundapplcation.model.LoginResponse;
 import com.example.aroundapplcation.model.LoginRequest;
+import com.example.aroundapplcation.model.LoginResponse;
 import com.example.aroundapplcation.services.NetworkService;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 

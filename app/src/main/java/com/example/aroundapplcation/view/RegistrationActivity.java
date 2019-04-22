@@ -1,11 +1,5 @@
 package com.example.aroundapplcation.view;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +12,11 @@ import com.example.aroundapplcation.model.RegistrationRequest;
 import com.example.aroundapplcation.model.RegistrationResponse;
 import com.example.aroundapplcation.services.NetworkService;
 
-import java.io.Console;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -70,8 +68,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                         .edit().putLong("userId", registrationResponse.getId()).apply();
                                 startActivity(intent);
                             }
-                        }
-                        else {
+                        } else {
                             Toast.makeText(getBaseContext(), "403 Forbidden", Toast.LENGTH_LONG).show();
                         }
                     }

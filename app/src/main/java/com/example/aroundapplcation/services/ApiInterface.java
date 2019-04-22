@@ -20,17 +20,20 @@ import retrofit2.http.Path;
 public interface ApiInterface {
 
     @POST("/auth/entry")
-    public Call<EntryResponse> sendPhoneNumber(@Body EntryRequest entryRequest);
+    Call<EntryResponse> sendPhoneNumber(@Body EntryRequest entryRequest);
 
     @POST("/auth/login")
-    public Call<LoginResponse> sendCredentials(@Body LoginRequest credentials);
+    Call<LoginResponse> sendCredentials(@Body LoginRequest credentials);
 
     @POST("/auth/phone/check")
-    public Call<PhoneCheckResponse> sendCode(@Body PhoneCheckRequest phoneCheckRequest);
+    Call<PhoneCheckResponse> sendCode(@Body PhoneCheckRequest phoneCheckRequest);
 
     @GET("/cards/users/{userId}")
-    public Call<User> getUser(@Header("Authorization") String accessToken, @Path("userId") int userId);
+    Call<User> getUser(@Header("Authorization") String accessToken, @Path("userId") int userId);
 
     @POST("/auth/registration")
-    public Call<RegistrationResponse> register(@Body RegistrationRequest registrationRequest);
+    Call<RegistrationResponse> register(@Body RegistrationRequest registrationRequest);
+
+    @GET("/cards/{id}")
+    Call<User> getBusinessCard(@Header("Authorization") String accessToken, @Path("id") int id);
 }

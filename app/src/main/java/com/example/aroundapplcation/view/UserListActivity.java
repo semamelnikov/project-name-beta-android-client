@@ -2,10 +2,12 @@ package com.example.aroundapplcation.view;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,9 +32,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -65,14 +64,14 @@ public class UserListActivity extends AppCompatActivity {
     private ListView listView;
     private ArrayAdapter<String> adapter;
 
-    private ArrayList<String> userIds = new ArrayList<>();
+    private ArrayList<Integer> businessCardIds = new ArrayList<>();
     private ArrayList<String> endpointIds = new ArrayList<>();
 
     private final EndpointDiscoveryCallback endpointDiscoveryCallback =
             new EndpointDiscoveryCallback() {
                 @Override
                 public void onEndpointFound(@NonNull final String s, @NonNull DiscoveredEndpointInfo discoveredEndpointInfo) {
-//                    userIds.add(discoveredEndpointInfo.getEndpointName());
+//                    businessCardIds.add(discoveredEndpointInfo.getEndpointName());
                     final int userId = Integer.parseInt(discoveredEndpointInfo.getEndpointName());
                     String accessToken = getBaseContext().getSharedPreferences(getBaseContext().getString(R.string.aroUnd_preference_file_key), Context.MODE_PRIVATE).getString("accessToken", "unknown");
                     NetworkService.getInstance()
@@ -81,7 +80,7 @@ public class UserListActivity extends AppCompatActivity {
                             .enqueue(new Callback<User>() {
                                 @Override
                                 public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-                                    userIds.add(response.body().getName() + "\n" + response.body().getSurname() + "\n" + response.body().getPhone());
+                                    businessCardIds.add(response.body().getId());
                                     devices.add(response.body().getName() + "\n" + response.body().getSurname() + "\n" + response.body().getPhone());
                                     endpointIds.add(s);
                                     adapter.notifyDataSetChanged();
@@ -100,7 +99,7 @@ public class UserListActivity extends AppCompatActivity {
                 public void onEndpointLost(@NonNull String s) {
                     int index = endpointIds.indexOf(s);
                     endpointIds.remove(s);
-                    userIds.remove(index);
+                    businessCardIds.remove(index);
                     adapter.notifyDataSetChanged();
                 }
             };
@@ -123,6 +122,15 @@ public class UserListActivity extends AppCompatActivity {
 //            }
         } else {
             listView = findViewById(R.id.rv_users);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    final Integer businessCardId = businessCardIds.get(position);
+                    Intent intent = new Intent(UserListActivity.this, BusinessCardActivity.class);
+                    intent.putExtra(BusinessCardActivity.BUSINESS_CARD_ID, businessCardId);
+                    startActivity(intent);
+                }
+            });
             devices = new ArrayList<>();
 
             adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, devices);
@@ -132,7 +140,7 @@ public class UserListActivity extends AppCompatActivity {
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(this);
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new UserListAdapter(userIds, this);
+            mAdapter = new UserListAdapter(businessCardIds, this);
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.addItemDecoration(
                     new DividerItemDecoration(

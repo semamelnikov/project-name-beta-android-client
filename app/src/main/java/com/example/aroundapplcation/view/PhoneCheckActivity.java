@@ -58,7 +58,7 @@ public class PhoneCheckActivity extends AppCompatActivity {
                         phoneNumber,
                         code
                 ))
-                    .enqueue(new Callback<PhoneCheckResponse>() {
+                .enqueue(new Callback<PhoneCheckResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<PhoneCheckResponse> call, @NonNull Response<PhoneCheckResponse> response) {
                         PhoneCheckResponse phoneCheckResponse = response.body();
