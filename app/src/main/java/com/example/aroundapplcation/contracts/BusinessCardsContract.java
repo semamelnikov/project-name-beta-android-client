@@ -1,12 +1,14 @@
 package com.example.aroundapplcation.contracts;
 
+import com.example.aroundapplcation.model.AdvertiserBusinessCard;
+
 import java.util.List;
 
 public interface BusinessCardsContract {
     interface View {
         void showToast(final String message);
 
-        void initAdapter(final List items);
+        void initAdapter(final List<AdvertiserBusinessCard> items);
 
         void updateBusinessCards();
 

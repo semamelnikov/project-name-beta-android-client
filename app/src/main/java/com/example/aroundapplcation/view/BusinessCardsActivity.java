@@ -6,15 +6,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.aroundapplcation.R;
+import com.example.aroundapplcation.adapter.BusinessCardsAdapter;
 import com.example.aroundapplcation.constants.Constants;
 import com.example.aroundapplcation.contracts.BusinessCardsContract;
+import com.example.aroundapplcation.model.AdvertiserBusinessCard;
 import com.example.aroundapplcation.presenter.BusinessCardsPresenter;
 import com.example.aroundapplcation.services.ApiInterface;
 import com.example.aroundapplcation.services.NetworkService;
@@ -26,6 +24,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.example.aroundapplcation.constants.IntentConstants.BUSINESS_CARD_ID;
 
@@ -33,14 +33,13 @@ public class BusinessCardsActivity extends AppCompatActivity implements Business
 
     private BusinessCardsContract.Presenter presenter;
 
-    // TODO This adapter is temporary.
-    private ArrayAdapter<String> adapter;
-    private ListView listView;
+    private RecyclerView businessCardsRecyclerView;
+    private BusinessCardsAdapter businessCardsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_list);
+        setContentView(R.layout.activity_business_cards);
 
         if (ContextCompat.checkSelfPermission(BusinessCardsActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -66,7 +65,7 @@ public class BusinessCardsActivity extends AppCompatActivity implements Business
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     BusinessCardsActivity.this.recreate();
                 } else {
-                    Toast.makeText(BusinessCardsActivity.this, "Permission denied...", Toast.LENGTH_LONG).show();
+                    showToast("Permission denied");
                 }
             }
         }
@@ -78,14 +77,17 @@ public class BusinessCardsActivity extends AppCompatActivity implements Business
     }
 
     @Override
-    public void initAdapter(final List items) {
-        adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, items);
-        listView.setAdapter(adapter);
+    public void initAdapter(final List<AdvertiserBusinessCard> items) {
+        businessCardsAdapter = new BusinessCardsAdapter(items, presenter);
+
+        businessCardsRecyclerView.setAdapter(businessCardsAdapter);
+        businessCardsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
     public void updateBusinessCards() {
-        adapter.notifyDataSetChanged();
+        // todo check if it is work
+        businessCardsAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -103,13 +105,7 @@ public class BusinessCardsActivity extends AppCompatActivity implements Business
     }
 
     private void initFields() {
-        listView = findViewById(R.id.lv_users);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                presenter.loadBusinessCardScreen(position);
-            }
-        });
+        businessCardsRecyclerView = findViewById(R.id.rv_business_cards);
 
         presenter.initAdapter();
     }

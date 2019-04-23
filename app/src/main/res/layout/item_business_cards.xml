@@ -7,7 +7,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
-        android:id="@+id/tv_disp_name"
+        android:id="@+id/tv_name"
         android:textColor="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,16 +16,16 @@
         android:layout_margin="4dp"/>
 
     <TextView
-        android:id="@+id/tv_disp_surname"
+        android:id="@+id/tv_surname"
         android:textColor="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:text="Surnname"
+        android:text="Surname"
         android:layout_margin="4dp"/>
 
     <TextView
-        android:id="@+id/tv_disp_phone"
+        android:id="@+id/tv_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"

@@ -37,7 +37,6 @@ public class BusinessCardsPresenter implements BusinessCardsContract.Presenter {
     private final ApiInterface api;
 
     private final List<AdvertiserBusinessCard> advertiserBusinessCards;
-    private List<String> devices;
 
     public BusinessCardsPresenter(final BusinessCardsContract.View view, final ConnectionsClient connectionsClient,
                                   final SharedPreferences sharedPreferences, final ApiInterface api) {
@@ -46,9 +45,7 @@ public class BusinessCardsPresenter implements BusinessCardsContract.Presenter {
         this.sharedPreferences = sharedPreferences;
         this.api = api;
         this.advertiserBusinessCards = new ArrayList<>();
-        devices = new ArrayList<>();
     }
-
 
     @Override
     public void loadBusinessCardScreen(final int businessCardPosition) {
@@ -80,7 +77,7 @@ public class BusinessCardsPresenter implements BusinessCardsContract.Presenter {
 
     @Override
     public void initAdapter() {
-        view.initAdapter(devices);
+        view.initAdapter(advertiserBusinessCards);
     }
 
     private EndpointDiscoveryCallback getEndpointDiscoveryCallback() {
@@ -118,10 +115,6 @@ public class BusinessCardsPresenter implements BusinessCardsContract.Presenter {
                 advertiserBusinessCard.setEndpointId(endpointId);
                 advertiserBusinessCards.add(advertiserBusinessCard);
 
-                view.updateBusinessCards();
-
-                // Remove after adapter for recycle view will be implemented
-                devices.add(response.body().getName() + "\n" + response.body().getSurname() + "\n" + response.body().getPhone());
                 view.updateBusinessCards();
             }
 
