@@ -29,11 +29,10 @@ public class PhoneCheckPresenter implements PhoneCheckContract.Presenter {
         this.phoneCheckRequest = new PhoneCheckRequest();
     }
 
-
     @Override
     public void initPhoneCheck() {
         phoneCheckRequest.setPhone(intent.getStringExtra(PHONE_NUMBER));
-        phoneCheckRequest.setRegistrationSessionId(REGISTRATION_SESSION_ID);
+        phoneCheckRequest.setRegistrationSessionId(intent.getStringExtra(REGISTRATION_SESSION_ID));
     }
 
     @Override
