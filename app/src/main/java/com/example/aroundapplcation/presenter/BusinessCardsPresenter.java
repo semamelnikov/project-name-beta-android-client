@@ -3,6 +3,8 @@ package com.example.aroundapplcation.presenter;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.aroundapplcation.contracts.BusinessCardsContract;
 import com.example.aroundapplcation.model.AdvertiserBusinessCard;
 import com.example.aroundapplcation.model.BusinessCard;
@@ -20,7 +22,6 @@ import com.google.android.gms.nearby.connection.Strategy;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -78,6 +79,21 @@ public class BusinessCardsPresenter implements BusinessCardsContract.Presenter {
     @Override
     public void initAdapter() {
         view.initAdapter(advertiserBusinessCards);
+    }
+
+    @Override
+    public void loadShopScreen() {
+        view.navigateToShopScreen();
+    }
+
+    @Override
+    public void loadFavoritesScreen() {
+        view.navigateToFavoritesScreen();
+    }
+
+    @Override
+    public void loadProfileScreen() {
+        view.navigateToProfileScreen();
     }
 
     private EndpointDiscoveryCallback getEndpointDiscoveryCallback() {

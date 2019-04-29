@@ -1,17 +1,21 @@
 package com.example.aroundapplcation.services;
 
+import com.example.aroundapplcation.model.BusinessCard;
 import com.example.aroundapplcation.model.EntryRequest;
 import com.example.aroundapplcation.model.EntryResponse;
+import com.example.aroundapplcation.model.FavoriteCardAddRequest;
 import com.example.aroundapplcation.model.LoginRequest;
 import com.example.aroundapplcation.model.LoginResponse;
 import com.example.aroundapplcation.model.PhoneCheckRequest;
 import com.example.aroundapplcation.model.PhoneCheckResponse;
 import com.example.aroundapplcation.model.RegistrationRequest;
 import com.example.aroundapplcation.model.RegistrationResponse;
-import com.example.aroundapplcation.model.BusinessCard;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -36,4 +40,27 @@ public interface ApiInterface {
 
     @GET("/cards/{id}")
     Call<BusinessCard> getBusinessCard(@Header("Authorization") String accessToken, @Path("id") int id);
+
+    @POST("/cards/{id}")
+    Call<BusinessCard> updateBusinessCard(@Header("Authorization") String accessToken,
+                                          @Path("id") int id,
+                                          @Body BusinessCard businessCard);
+
+    @GET("/cards/favorites")
+    Call<List<BusinessCard>> getFavoritesBusinessCards(@Header("Authorization") String accessToken);
+
+    @POST("/cards/favorites")
+    Call addCardIntoFavorites(@Header("Authorization") String accessToken,
+                              @Body FavoriteCardAddRequest favoriteCardAddRequest);
+
+    @DELETE("/cards/favorites/{cardId}")
+    Call removeCardFromFavorites(@Header("Authorization") String accessToken,
+                                 @Path("cardId") int cardId);
+
+    @GET("/premium/update/{userId}")
+    Call<Boolean> updateAccountPremiumStatus(@Header("Authorization") String accessToken,
+                                             @Path("userId") String userId);
+
+    @GET("/premium/snoopers")
+    Call<List<BusinessCard>> getSnoopers(@Header("Authorization") String accessToken);
 }

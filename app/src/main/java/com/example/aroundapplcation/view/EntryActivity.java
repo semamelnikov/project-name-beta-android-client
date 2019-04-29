@@ -9,13 +9,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.aroundapplcation.R;
 import com.example.aroundapplcation.contracts.EntryContract;
 import com.example.aroundapplcation.presenter.EntryPresenter;
 import com.example.aroundapplcation.services.ApiInterface;
 import com.example.aroundapplcation.services.NetworkService;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import static com.example.aroundapplcation.constants.IntentConstants.PHONE_NUMBER;
 import static com.example.aroundapplcation.constants.IntentConstants.REGISTRATION_SESSION_ID;
