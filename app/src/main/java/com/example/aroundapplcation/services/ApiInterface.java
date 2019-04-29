@@ -50,12 +50,16 @@ public interface ApiInterface {
     Call<List<BusinessCard>> getFavoritesBusinessCards(@Header("Authorization") String accessToken);
 
     @POST("/cards/favorites")
-    Call addCardIntoFavorites(@Header("Authorization") String accessToken,
-                              @Body FavoriteCardAddRequest favoriteCardAddRequest);
+    Call<Void> addCardIntoFavorites(@Header("Authorization") String accessToken,
+                                    @Body FavoriteCardAddRequest favoriteCardAddRequest);
 
     @DELETE("/cards/favorites/{cardId}")
-    Call removeCardFromFavorites(@Header("Authorization") String accessToken,
-                                 @Path("cardId") int cardId);
+    Call<Void> removeCardFromFavorites(@Header("Authorization") String accessToken,
+                                       @Path("cardId") int cardId);
+
+    @GET("/cards/favorites/{cardId}/check")
+    Call<Boolean> isCardInFavorites(@Header("Authorization") String accessToken,
+                                    @Path("cardId") int cardId);
 
     @GET("/premium/update/{userId}")
     Call<Boolean> updateAccountPremiumStatus(@Header("Authorization") String accessToken,

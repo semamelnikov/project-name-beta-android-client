@@ -58,7 +58,6 @@ public class ShopPresenter implements ShopContract.Presenter {
             public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
                 final boolean isCurrentUserPremium = response.body();
                 sharedPreferences.edit().putBoolean(PREMIUM_ACCOUNT, isCurrentUserPremium).apply();
-                view.updatePremiumAccountToggleButton(isCurrentUserPremium);
                 view.updateSnoopersButton(isCurrentUserPremium);
             }
 

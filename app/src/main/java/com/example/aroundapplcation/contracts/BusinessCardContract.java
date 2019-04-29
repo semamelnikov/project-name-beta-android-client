@@ -7,6 +7,8 @@ public interface BusinessCardContract {
         void showBusinessCardFields(final BusinessCard businessCard);
 
         void showToast(final String message);
+
+        void updateFavoriteToggleButton(final boolean isCardInFavorites);
     }
 
     interface Presenter {
@@ -15,5 +17,9 @@ public interface BusinessCardContract {
         void initAccessToken();
 
         void getBusinessCard();
+
+        void updateBusinessCardFavoritesStatus(final boolean isFavorite);
+
+        void initBusinessCardFavoriteStatus();
     }
 }

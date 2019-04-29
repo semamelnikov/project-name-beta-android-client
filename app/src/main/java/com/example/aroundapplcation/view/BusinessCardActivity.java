@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aroundapplcation.R;
 import com.example.aroundapplcation.contracts.BusinessCardContract;
@@ -14,8 +18,6 @@ import com.example.aroundapplcation.presenter.BusinessCardPresenter;
 import com.example.aroundapplcation.services.ApiInterface;
 import com.example.aroundapplcation.services.NetworkService;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 public class BusinessCardActivity extends AppCompatActivity implements BusinessCardContract.View {
 
     private BusinessCardContract.Presenter presenter;
@@ -23,6 +25,8 @@ public class BusinessCardActivity extends AppCompatActivity implements BusinessC
     private TextView tvName;
     private TextView tvSurname;
     private TextView tvPhone;
+
+    private ToggleButton favoritesToggleButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,10 @@ public class BusinessCardActivity extends AppCompatActivity implements BusinessC
         presenter.initBusinessCardId();
         presenter.initAccessToken();
         presenter.getBusinessCard();
+
+        presenter.initBusinessCardFavoriteStatus();
+
+        addFavoritesToggleListener();
     }
 
     @Override
@@ -50,6 +58,11 @@ public class BusinessCardActivity extends AppCompatActivity implements BusinessC
         Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void updateFavoriteToggleButton(boolean isCardInFavorites) {
+        favoritesToggleButton.setChecked(isCardInFavorites);
+    }
+
     private void initPresenter() {
         final Intent intent = getIntent();
         final SharedPreferences sharedPreferences = getSharedPreferences(
@@ -62,5 +75,16 @@ public class BusinessCardActivity extends AppCompatActivity implements BusinessC
         tvName = findViewById(R.id.name);
         tvSurname = findViewById(R.id.surname);
         tvPhone = findViewById(R.id.phone);
+
+        favoritesToggleButton = findViewById(R.id.favorites_toggle_button);
+    }
+
+    private void addFavoritesToggleListener() {
+        favoritesToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                presenter.updateBusinessCardFavoritesStatus(isChecked);
+            }
+        });
     }
 }
