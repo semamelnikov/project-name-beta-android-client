@@ -22,7 +22,6 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     private final ApiInterface api;
 
     private String accessToken;
-    private String userId;
     private BusinessCard businessCard;
 
     public ProfilePresenter(final ProfileContract.View view, final SharedPreferences sharedPreferences,
@@ -69,6 +68,7 @@ public class ProfilePresenter implements ProfileContract.Presenter {
             public void onResponse(@NonNull Call<BusinessCard> call, @NonNull Response<BusinessCard> response) {
                 businessCard = response.body();
                 view.updateBusinessCardFields(businessCard);
+                view.showToast("Successful!");
             }
 
             @Override
@@ -91,7 +91,7 @@ public class ProfilePresenter implements ProfileContract.Presenter {
 
     @Override
     public void saveSurname(final String surname) {
-        businessCard.setName(surname);
+        businessCard.setSurname(surname);
     }
 
     private Integer getUserId() {

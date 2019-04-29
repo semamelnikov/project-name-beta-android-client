@@ -50,7 +50,6 @@ public class BusinessCardPresenter implements BusinessCardContract.Presenter {
     @Override
     public void getBusinessCard() {
         api.getBusinessCard(accessToken, businessCardId).enqueue(getBusinessCardCallback());
-
     }
 
     @Override
@@ -105,6 +104,7 @@ public class BusinessCardPresenter implements BusinessCardContract.Presenter {
         return new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                view.showToast("Successful!");
             }
 
             @Override
@@ -119,6 +119,7 @@ public class BusinessCardPresenter implements BusinessCardContract.Presenter {
         return new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                view.showToast("Successful!");
             }
 
             @Override
