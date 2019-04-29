@@ -16,9 +16,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.UserListActivity"></activity>
+        <activity
+            android:name=".view.SnoopersActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".view.ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.FavoritesActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.ShopActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".view.BusinessCardActivity" />
+        <activity android:name=".view.RegistrationActivity" />
+        <activity android:name=".view.PhoneCheckActivity" />
+        <activity
+            android:name=".view.BusinessCardsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".view.LoginActivity" />
-        <activity android:name=".view.PhoneNumberActivity">
+        <activity android:name=".view.EntryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

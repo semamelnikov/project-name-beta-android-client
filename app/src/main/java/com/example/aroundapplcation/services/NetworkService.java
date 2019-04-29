@@ -4,26 +4,27 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkService {
+    private static final String BASE_URL = "https://around-project.herokuapp.com";
 
-    private static NetworkService mInstance;
-    private static final String BASE_URL = "";
-    private Retrofit mRetrofit;
+    private static NetworkService networkService;
+
+    private Retrofit retrofit;
 
     private NetworkService() {
-        mRetrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
     public static NetworkService getInstance() {
-        if (mInstance == null) {
-            mInstance = new NetworkService();
+        if (networkService == null) {
+            networkService = new NetworkService();
         }
-        return mInstance;
+        return networkService;
     }
 
     public ApiInterface getApiInterface() {
-        return mRetrofit.create(ApiInterface.class);
+        return retrofit.create(ApiInterface.class);
     }
 }

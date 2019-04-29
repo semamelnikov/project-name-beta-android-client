@@ -5,4 +5,9 @@
     <string name="et_enter_password">Enter your password</string>
     <string name="aroUnd_preference_file_key">aroUndPreferences</string>
     <string name="item_user_list_text">Username</string>
+    <string name="et_enter_code">Please enter code from SMS here</string>
+    <string name="et_name">Enter your name here</string>
+    <string name="et_password1">Enter your password here</string>
+    <string name="et_password2">Repeat your password</string>
+    <string name="et_last_name">Enter your last name here</string>
 </resources>
