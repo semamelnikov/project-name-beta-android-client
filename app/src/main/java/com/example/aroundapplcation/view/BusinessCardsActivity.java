@@ -90,7 +90,6 @@ public class BusinessCardsActivity extends AppCompatActivity implements Business
 
     @Override
     public void updateBusinessCards() {
-        // todo check if it is work
         businessCardsAdapter.notifyDataSetChanged();
     }
 
@@ -155,5 +154,12 @@ public class BusinessCardsActivity extends AppCompatActivity implements Business
                 break;
         }
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.stopAdvertising();
+        presenter.stopDiscovery();
     }
 }

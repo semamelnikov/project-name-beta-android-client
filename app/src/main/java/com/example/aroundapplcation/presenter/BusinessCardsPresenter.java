@@ -96,6 +96,16 @@ public class BusinessCardsPresenter implements BusinessCardsContract.Presenter {
         view.navigateToProfileScreen();
     }
 
+    @Override
+    public void stopDiscovery() {
+        connectionsClient.stopDiscovery();
+    }
+
+    @Override
+    public void stopAdvertising() {
+        connectionsClient.stopAdvertising();
+    }
+
     private EndpointDiscoveryCallback getEndpointDiscoveryCallback() {
         return new EndpointDiscoveryCallback() {
             @Override

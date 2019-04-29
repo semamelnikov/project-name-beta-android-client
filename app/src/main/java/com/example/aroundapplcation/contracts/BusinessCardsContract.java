@@ -35,5 +35,9 @@ public interface BusinessCardsContract {
         void loadFavoritesScreen();
 
         void loadProfileScreen();
+
+        void stopDiscovery();
+
+        void stopAdvertising();
     }
 }
