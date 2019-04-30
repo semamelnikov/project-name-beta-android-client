@@ -68,6 +68,24 @@ public class BusinessCardPresenter implements BusinessCardContract.Presenter {
         api.isCardInFavorites(accessToken, businessCardId).enqueue(getIsCardInFavoritesCallback());
     }
 
+    @Override
+    public void initSocialMediaButtons() {
+        view.updateEnableVkButtonState(!"".equals(businessCard.getVkId()));
+        view.updateEnableInstagramButtonState(!"".equals(businessCard.getInstagramId()));
+    }
+
+    @Override
+    public void loadVkApp() {
+        final String uri = "https://vk.com/" + businessCard.getVkId();
+        view.navigateToVkApp(uri);
+    }
+
+    @Override
+    public void loadInstagramApp() {
+        final String uri = "https://www.instagram.com/" + businessCard.getInstagramId() + "/";
+        view.navigateToInstagramApp(uri);
+    }
+
     private Callback<Boolean> getIsCardInFavoritesCallback() {
         return new Callback<Boolean>() {
             @Override

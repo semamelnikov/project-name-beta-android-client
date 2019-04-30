@@ -94,6 +94,16 @@ public class ProfilePresenter implements ProfileContract.Presenter {
         businessCard.setSurname(surname);
     }
 
+    @Override
+    public void saveVk(final String vkId) {
+        businessCard.setVkId(vkId);
+    }
+
+    @Override
+    public void saveInstagram(final String instagramId) {
+        businessCard.setInstagramId(instagramId);
+    }
+
     private Integer getUserId() {
         final Long userId = sharedPreferences.getLong(USER_ID, -1);
         return userId.intValue();

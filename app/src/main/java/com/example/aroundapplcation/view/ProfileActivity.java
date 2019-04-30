@@ -25,6 +25,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     private EditText nameEditText;
     private EditText surnameEditText;
     private EditText phoneEditText;
+    private EditText vkEditText;
+    private EditText instagramEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         surnameEditText.addTextChangedListener(getSurnameEditTextChangeListener());
         phoneEditText = findViewById(R.id.et_profile_phone);
         phoneEditText.addTextChangedListener(getPhoneEditTextChangeListener());
+        vkEditText = findViewById(R.id.et_profile_vk);
+        vkEditText.addTextChangedListener(getVkEditTextChangeListener());
+        instagramEditText = findViewById(R.id.et_profile_instagram);
+        instagramEditText.addTextChangedListener(getInstagramEditTextChangeListener());
     }
 
     private void initPresenter() {
@@ -66,6 +72,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         nameEditText.setText(businessCard.getName());
         surnameEditText.setText(businessCard.getSurname());
         phoneEditText.setText(businessCard.getPhone());
+        vkEditText.setText(businessCard.getVkId());
+        instagramEditText.setText(businessCard.getInstagramId());
     }
 
     @Override
@@ -120,6 +128,40 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
             @Override
             public void afterTextChanged(Editable s) {
                 presenter.saveSurname(s.toString());
+            }
+        };
+    }
+
+    private TextWatcher getVkEditTextChangeListener() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                presenter.saveVk(s.toString());
+            }
+        };
+    }
+
+    private TextWatcher getInstagramEditTextChangeListener() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                presenter.saveInstagram(s.toString());
             }
         };
     }

@@ -3,7 +3,10 @@ package com.example.aroundapplcation.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +29,9 @@ public class BusinessCardActivity extends AppCompatActivity implements BusinessC
     private TextView tvSurname;
     private TextView tvPhone;
 
+    private Button vkButton;
+    private Button instagramButton;
+
     private ToggleButton favoritesToggleButton;
 
     @Override
@@ -43,6 +49,8 @@ public class BusinessCardActivity extends AppCompatActivity implements BusinessC
 
         presenter.initBusinessCardFavoriteStatus();
 
+        presenter.initSocialMediaButtons();
+
         addFavoritesToggleListener();
     }
 
@@ -59,8 +67,38 @@ public class BusinessCardActivity extends AppCompatActivity implements BusinessC
     }
 
     @Override
-    public void updateFavoriteToggleButton(boolean isCardInFavorites) {
+    public void updateFavoriteToggleButton(final boolean isCardInFavorites) {
         favoritesToggleButton.setChecked(isCardInFavorites);
+    }
+
+    @Override
+    public void updateEnableVkButtonState(final boolean isEnabled) {
+        vkButton.setEnabled(isEnabled);
+    }
+
+    @Override
+    public void updateEnableInstagramButtonState(final boolean isEnabled) {
+        instagramButton.setEnabled(isEnabled);
+    }
+
+    @Override
+    public void navigateToVkApp(final String vkUri) {
+        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(vkUri));
+        startActivity(intent);
+    }
+
+    @Override
+    public void navigateToInstagramApp(final String instagramUri) {
+        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(instagramUri));
+        startActivity(intent);
+    }
+
+    public void onVkButtonClick(View view) {
+        presenter.loadVkApp();
+    }
+
+    public void onInstagramButtonClick(View view) {
+        presenter.loadInstagramApp();
     }
 
     private void initPresenter() {
@@ -75,6 +113,9 @@ public class BusinessCardActivity extends AppCompatActivity implements BusinessC
         tvName = findViewById(R.id.name);
         tvSurname = findViewById(R.id.surname);
         tvPhone = findViewById(R.id.phone);
+
+        vkButton = findViewById(R.id.vk_button);
+        instagramButton = findViewById(R.id.instagram_button);
 
         favoritesToggleButton = findViewById(R.id.favorites_toggle_button);
     }

@@ -25,6 +25,14 @@ public class BusinessCard {
     @Expose
     private String phone;
 
+    @SerializedName("instagramId")
+    @Expose
+    private String instagramId;
+
+    @SerializedName("vkId")
+    @Expose
+    private String vkId;
+
     public BusinessCard() {
     }
 
@@ -66,5 +74,21 @@ public class BusinessCard {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getInstagramId() {
+        return instagramId;
+    }
+
+    public void setInstagramId(String instagramId) {
+        this.instagramId = instagramId;
+    }
+
+    public String getVkId() {
+        return vkId;
+    }
+
+    public void setVkId(String vkId) {
+        this.vkId = vkId;
     }
 }

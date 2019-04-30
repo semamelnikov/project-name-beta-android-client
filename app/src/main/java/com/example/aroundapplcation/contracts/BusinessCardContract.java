@@ -9,6 +9,14 @@ public interface BusinessCardContract {
         void showToast(final String message);
 
         void updateFavoriteToggleButton(final boolean isCardInFavorites);
+
+        void updateEnableVkButtonState(final boolean isEnabled);
+
+        void updateEnableInstagramButtonState(final boolean isEnabled);
+
+        void navigateToVkApp(final String vkUri);
+
+        void navigateToInstagramApp(final String instagramUri);
     }
 
     interface Presenter {
@@ -21,5 +29,11 @@ public interface BusinessCardContract {
         void updateBusinessCardFavoritesStatus(final boolean isFavorite);
 
         void initBusinessCardFavoriteStatus();
+
+        void initSocialMediaButtons();
+
+        void loadVkApp();
+
+        void loadInstagramApp();
     }
 }

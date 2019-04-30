@@ -22,5 +22,9 @@ public interface ProfileContract {
         void saveName(final String name);
 
         void saveSurname(final String surname);
+
+        void saveVk(final String vkId);
+
+        void saveInstagram(final String instagramId);
     }
 }

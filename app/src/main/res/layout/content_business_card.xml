@@ -59,4 +59,28 @@
         android:text="In Favorites"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phone" />
+
+    <Button
+        android:id="@+id/vk_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:onClick="onVkButtonClick"
+        android:text="VK"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favorites_toggle_button" />
+
+    <Button
+        android:id="@+id/instagram_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="onInstagramButtonClick"
+        android:text="INSTAGRAM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/vk_button"
+        app:layout_constraintTop_toBottomOf="@+id/favorites_toggle_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
