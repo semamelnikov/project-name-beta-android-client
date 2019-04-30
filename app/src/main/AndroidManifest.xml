@@ -28,7 +28,9 @@
         <activity
             android:name=".view.ShopActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.BusinessCardActivity" />
+        <activity
+            android:name=".view.BusinessCardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".view.RegistrationActivity" />
         <activity android:name=".view.PhoneCheckActivity" />
         <activity
