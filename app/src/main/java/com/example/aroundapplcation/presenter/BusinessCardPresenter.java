@@ -70,8 +70,8 @@ public class BusinessCardPresenter implements BusinessCardContract.Presenter {
 
     @Override
     public void initSocialMediaButtons() {
-        view.updateEnableVkButtonState(!"".equals(businessCard.getVkId()));
-        view.updateEnableInstagramButtonState(!"".equals(businessCard.getInstagramId()));
+        view.updateEnableVkButtonState(businessCard.getVkId() != null && !"".equals(businessCard.getVkId()));
+        view.updateEnableInstagramButtonState(businessCard.getInstagramId() != null && !"".equals(businessCard.getInstagramId()));
     }
 
     @Override
@@ -92,6 +92,7 @@ public class BusinessCardPresenter implements BusinessCardContract.Presenter {
             public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
                 final boolean isCardInFavorites = response.body();
                 view.updateFavoriteToggleButton(isCardInFavorites);
+                view.addListenerToFavoritesToggleButton();
             }
 
             @Override
@@ -108,6 +109,7 @@ public class BusinessCardPresenter implements BusinessCardContract.Presenter {
             public void onResponse(@NonNull Call<BusinessCard> call, @NonNull Response<BusinessCard> response) {
                 businessCard = response.body();
                 view.showBusinessCardFields(businessCard);
+                initSocialMediaButtons();
             }
 
             @Override

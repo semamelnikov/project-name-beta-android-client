@@ -17,6 +17,8 @@ public interface BusinessCardContract {
         void navigateToVkApp(final String vkUri);
 
         void navigateToInstagramApp(final String instagramUri);
+
+        void addListenerToFavoritesToggleButton();
     }
 
     interface Presenter {

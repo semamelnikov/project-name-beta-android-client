@@ -48,10 +48,6 @@ public class BusinessCardActivity extends AppCompatActivity implements BusinessC
         presenter.getBusinessCard();
 
         presenter.initBusinessCardFavoriteStatus();
-
-        presenter.initSocialMediaButtons();
-
-        addFavoritesToggleListener();
     }
 
     @Override
@@ -91,6 +87,11 @@ public class BusinessCardActivity extends AppCompatActivity implements BusinessC
     public void navigateToInstagramApp(final String instagramUri) {
         final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(instagramUri));
         startActivity(intent);
+    }
+
+    @Override
+    public void addListenerToFavoritesToggleButton() {
+        addFavoritesToggleListener();
     }
 
     public void onVkButtonClick(View view) {
