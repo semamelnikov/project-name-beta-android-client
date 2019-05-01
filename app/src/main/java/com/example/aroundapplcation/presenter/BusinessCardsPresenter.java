@@ -98,12 +98,16 @@ public class BusinessCardsPresenter implements BusinessCardsContract.Presenter {
 
     @Override
     public void stopDiscovery() {
-        connectionsClient.stopDiscovery();
+        if (connectionsClient != null) {
+            connectionsClient.stopDiscovery();
+        }
     }
 
     @Override
     public void stopAdvertising() {
-        connectionsClient.stopAdvertising();
+        if (connectionsClient != null) {
+            connectionsClient.stopAdvertising();
+        }
     }
 
     private EndpointDiscoveryCallback getEndpointDiscoveryCallback() {

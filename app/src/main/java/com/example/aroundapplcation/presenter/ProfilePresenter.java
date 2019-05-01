@@ -1,6 +1,7 @@
 package com.example.aroundapplcation.presenter;
 
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,13 @@ import androidx.annotation.NonNull;
 import com.example.aroundapplcation.contracts.ProfileContract;
 import com.example.aroundapplcation.model.BusinessCard;
 import com.example.aroundapplcation.services.ApiInterface;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,15 +28,19 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     private final ProfileContract.View view;
     private final SharedPreferences sharedPreferences;
     private final ApiInterface api;
+    private final StorageReference storageReference;
 
     private String accessToken;
     private BusinessCard businessCard;
 
+    private Uri currentIconUri;
+
     public ProfilePresenter(final ProfileContract.View view, final SharedPreferences sharedPreferences,
-                            final ApiInterface api) {
+                            final ApiInterface api, final StorageReference storageReference) {
         this.view = view;
         this.sharedPreferences = sharedPreferences;
         this.api = api;
+        this.storageReference = storageReference;
     }
 
     @Override
@@ -47,6 +59,7 @@ public class ProfilePresenter implements ProfileContract.Presenter {
             public void onResponse(@NonNull Call<BusinessCard> call, @NonNull Response<BusinessCard> response) {
                 businessCard = response.body();
                 view.updateBusinessCardFields(businessCard);
+                loadCardIcon();
             }
 
             @Override
@@ -57,9 +70,53 @@ public class ProfilePresenter implements ProfileContract.Presenter {
         };
     }
 
+    private void loadCardIcon() {
+        final String iconUri = businessCard.getIconUri();
+        view.updateIconByLoadedImage(iconUri);
+    }
+
     @Override
     public void updateBusinessCard() {
+        if (currentIconUri != null) {
+            saveIcon(currentIconUri);
+        } else {
+            saveBusinessCard();
+        }
+    }
+
+    private void saveIcon(final Uri profileIconUri) {
+        final StorageReference childReference = storageReference.child(getUserIconName());
+
+        childReference.putFile(profileIconUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return childReference.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    final Uri iconUri = task.getResult();
+                    businessCard.setIconUri(iconUri.toString());
+                    saveBusinessCard();
+                }
+            }
+        });
+    }
+
+    private void saveBusinessCard() {
         api.updateBusinessCard(accessToken, businessCard.getId(), businessCard).enqueue(getUpdateBusinessCardCallback());
+    }
+
+    private String getUserIconName() {
+        return "image_" + businessCard.getPhone() +
+                "_" + businessCard.getUserId() +
+                "_" + businessCard.getId() +
+                "_" + UUID.randomUUID() +
+                ".jpg";
     }
 
     private Callback<BusinessCard> getUpdateBusinessCardCallback() {
@@ -102,6 +159,12 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     @Override
     public void saveInstagram(final String instagramId) {
         businessCard.setInstagramId(instagramId);
+    }
+
+    @Override
+    public void saveIconPath(final Uri iconUri) {
+        currentIconUri = iconUri;
+        view.updateIconByMemoryImage(currentIconUri);
     }
 
     private Integer getUserId() {

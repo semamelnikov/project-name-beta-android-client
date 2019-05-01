@@ -4,11 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.aroundapplcation.R;
 import com.example.aroundapplcation.contracts.FavoritesContract;
 import com.example.aroundapplcation.model.BusinessCard;
@@ -18,10 +21,13 @@ import java.util.List;
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.FavoritesAdapterViewHolder> {
     private final List<BusinessCard> favorites;
     private final FavoritesContract.Presenter presenter;
+    private final Context context;
 
-    public FavoritesAdapter(final List<BusinessCard> favorites, final FavoritesContract.Presenter presenter) {
+    public FavoritesAdapter(final List<BusinessCard> favorites, final FavoritesContract.Presenter presenter,
+                            final Context context) {
         this.favorites = favorites;
         this.presenter = presenter;
+        this.context = context;
     }
 
     @NonNull
@@ -47,6 +53,15 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
         final TextView phoneTextView = holder.phoneTextView;
         phoneTextView.setText(businessCard.getPhone());
+
+        final ImageView iconImageView = holder.businessCardIconImageView;
+        final String iconUri = businessCard.getIconUri();
+        if (iconUri != null && !"".equals(iconUri))
+            Glide.with(context)
+                    .load(iconUri)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(300, 300)
+                    .into(iconImageView);
     }
 
     @Override
@@ -59,6 +74,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         private TextView nameTextView;
         private TextView surnameTextView;
         private TextView phoneTextView;
+        private ImageView businessCardIconImageView;
 
         FavoritesAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,6 +82,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
             nameTextView = itemView.findViewById(R.id.tv_name);
             surnameTextView = itemView.findViewById(R.id.tv_surname);
             phoneTextView = itemView.findViewById(R.id.tv_phone);
+            businessCardIconImageView = itemView.findViewById(R.id.business_card_icon);
 
             itemView.setOnClickListener(this);
         }

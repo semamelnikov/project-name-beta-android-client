@@ -44,7 +44,7 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesCon
 
     @Override
     public void initAdapter(final List<BusinessCard> favorites) {
-        favoritesAdapter = new FavoritesAdapter(favorites, presenter);
+        favoritesAdapter = new FavoritesAdapter(favorites, presenter, this);
 
         favoritesRecyclerView.setAdapter(favoritesAdapter);
         favoritesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
