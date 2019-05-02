@@ -7,13 +7,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.aroundapplcation.R;
 import com.example.aroundapplcation.contracts.RegistrationContract;
 import com.example.aroundapplcation.presenter.RegistrationPresenter;
 import com.example.aroundapplcation.services.ApiInterface;
 import com.example.aroundapplcation.services.NetworkService;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class RegistrationActivity extends AppCompatActivity implements RegistrationContract.View {
 
@@ -67,9 +67,9 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
 
     private void initPresenter() {
         final Intent intent = getIntent();
-        final ApiInterface api = NetworkService.getInstance().getApiInterface();
         final SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE);
+        final ApiInterface api = NetworkService.getInstance(sharedPreferences).getApiInterface();
         presenter = new RegistrationPresenter(this, intent, api, sharedPreferences);
     }
 }

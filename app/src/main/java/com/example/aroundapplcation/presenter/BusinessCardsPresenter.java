@@ -26,7 +26,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.aroundapplcation.constants.SharedPreferencesConstants.ACCESS_TOKEN;
 import static com.example.aroundapplcation.constants.SharedPreferencesConstants.USER_ID;
 
 public class BusinessCardsPresenter implements BusinessCardsContract.Presenter {
@@ -115,8 +114,7 @@ public class BusinessCardsPresenter implements BusinessCardsContract.Presenter {
             @Override
             public void onEndpointFound(@NonNull final String endpointId, @NonNull DiscoveredEndpointInfo discoveredEndpointInfo) {
                 final int userId = Integer.parseInt(discoveredEndpointInfo.getEndpointName());
-                final String accessToken = sharedPreferences.getString(ACCESS_TOKEN, "unknown");
-                api.getBusinessCardByUserId(accessToken, userId).enqueue(getBusinessCardByUserIdCallback(endpointId));
+                api.getBusinessCardByUserId(userId).enqueue(getBusinessCardByUserIdCallback(endpointId));
             }
 
             @Override

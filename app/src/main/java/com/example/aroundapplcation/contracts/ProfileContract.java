@@ -17,8 +17,6 @@ public interface ProfileContract {
     }
 
     interface Presenter {
-        void initAccessToken();
-
         void initBusinessCard();
 
         void updateBusinessCard();

@@ -1,6 +1,5 @@
 package com.example.aroundapplcation.presenter;
 
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -16,27 +15,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.aroundapplcation.constants.SharedPreferencesConstants.ACCESS_TOKEN;
-
 public class FavoritesPresenter implements FavoritesContract.Presenter {
     private final FavoritesContract.View view;
     private final ApiInterface api;
-    private final SharedPreferences sharedPreferences;
     private final List<BusinessCard> favorites;
 
-    private String accessToken;
-
-    public FavoritesPresenter(final FavoritesContract.View view, final ApiInterface api,
-                              final SharedPreferences sharedPreferences) {
+    public FavoritesPresenter(final FavoritesContract.View view, final ApiInterface api) {
         this.view = view;
         this.api = api;
-        this.sharedPreferences = sharedPreferences;
         this.favorites = new ArrayList<>();
-    }
-
-    @Override
-    public void initAccessToken() {
-        accessToken = sharedPreferences.getString(ACCESS_TOKEN, "undefined");
     }
 
     @Override
@@ -54,7 +41,7 @@ public class FavoritesPresenter implements FavoritesContract.Presenter {
 
     @Override
     public void initFavorites() {
-        api.getFavoritesBusinessCards(accessToken).enqueue(getFavoritesCallback());
+        api.getFavoritesBusinessCards().enqueue(getFavoritesCallback());
     }
 
     private Callback<List<BusinessCard>> getFavoritesCallback() {

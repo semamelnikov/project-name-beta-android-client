@@ -51,7 +51,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
         initFields();
 
-        presenter.initAccessToken();
         presenter.initBusinessCard();
     }
 
@@ -74,7 +73,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     private void initPresenter() {
         final SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE);
-        final ApiInterface api = NetworkService.getInstance().getApiInterface();
+        final ApiInterface api = NetworkService.getInstance(sharedPreferences).getApiInterface();
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         presenter = new ProfilePresenter(this, sharedPreferences, api, storageReference);
     }

@@ -44,7 +44,6 @@ public class BusinessCardActivity extends AppCompatActivity implements BusinessC
         initFields();
 
         presenter.initBusinessCardId();
-        presenter.initAccessToken();
         presenter.getBusinessCard();
 
         presenter.initBusinessCardFavoriteStatus();
@@ -106,8 +105,8 @@ public class BusinessCardActivity extends AppCompatActivity implements BusinessC
         final Intent intent = getIntent();
         final SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.aroUnd_preference_file_key), Context.MODE_PRIVATE);
-        final ApiInterface api = NetworkService.getInstance().getApiInterface();
-        presenter = new BusinessCardPresenter(this, intent, sharedPreferences, api);
+        final ApiInterface api = NetworkService.getInstance(sharedPreferences).getApiInterface();
+        presenter = new BusinessCardPresenter(this, intent, api);
     }
 
     private void initFields() {

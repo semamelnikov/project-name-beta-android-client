@@ -1,6 +1,7 @@
 package com.example.aroundapplcation.view;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,13 +9,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.aroundapplcation.R;
 import com.example.aroundapplcation.contracts.PhoneCheckContract;
 import com.example.aroundapplcation.presenter.PhoneCheckPresenter;
 import com.example.aroundapplcation.services.ApiInterface;
 import com.example.aroundapplcation.services.NetworkService;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import static com.example.aroundapplcation.constants.IntentConstants.PHONE_NUMBER;
 import static com.example.aroundapplcation.constants.IntentConstants.REGISTRATION_SESSION_ID;
@@ -62,7 +63,9 @@ public class PhoneCheckActivity extends AppCompatActivity implements PhoneCheckC
 
     private void initPresenter() {
         final Intent intent = getIntent();
-        final ApiInterface api = NetworkService.getInstance().getApiInterface();
+        final SharedPreferences sharedPreferences = getSharedPreferences(
+                getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE);
+        final ApiInterface api = NetworkService.getInstance(sharedPreferences).getApiInterface();
         presenter = new PhoneCheckPresenter(this, intent, api);
     }
 

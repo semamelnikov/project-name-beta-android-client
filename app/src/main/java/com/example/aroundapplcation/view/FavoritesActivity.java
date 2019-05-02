@@ -38,7 +38,6 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesCon
 
         initFields();
 
-        presenter.initAccessToken();
         presenter.initFavorites();
     }
 
@@ -68,10 +67,10 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesCon
     }
 
     private void initPresenter() {
-        final ApiInterface api = NetworkService.getInstance().getApiInterface();
         final SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE);
-        presenter = new FavoritesPresenter(this, api, sharedPreferences);
+        final ApiInterface api = NetworkService.getInstance(sharedPreferences).getApiInterface();
+        presenter = new FavoritesPresenter(this, api);
     }
 
     private void initFields() {

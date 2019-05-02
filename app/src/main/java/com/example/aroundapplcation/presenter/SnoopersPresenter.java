@@ -1,6 +1,5 @@
 package com.example.aroundapplcation.presenter;
 
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -16,27 +15,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.aroundapplcation.constants.SharedPreferencesConstants.ACCESS_TOKEN;
-
 public class SnoopersPresenter implements SnoopersContract.Presenter {
     private final SnoopersContract.View view;
     private final ApiInterface api;
-    private final SharedPreferences sharedPreferences;
     private final List<BusinessCard> snoopers;
 
-    private String accessToken;
-
-    public SnoopersPresenter(final SnoopersContract.View view, final ApiInterface api,
-                             final SharedPreferences sharedPreferences) {
+    public SnoopersPresenter(final SnoopersContract.View view, final ApiInterface api) {
         this.view = view;
         this.api = api;
-        this.sharedPreferences = sharedPreferences;
         this.snoopers = new ArrayList<>();
-    }
-
-    @Override
-    public void initAccessToken() {
-        accessToken = sharedPreferences.getString(ACCESS_TOKEN, "undefined");
     }
 
     @Override
@@ -54,7 +41,7 @@ public class SnoopersPresenter implements SnoopersContract.Presenter {
 
     @Override
     public void initSnoopers() {
-        api.getSnoopers(accessToken).enqueue(getSnoopersCallback());
+        api.getSnoopers().enqueue(getSnoopersCallback());
     }
 
     private Callback<List<BusinessCard>> getSnoopersCallback() {

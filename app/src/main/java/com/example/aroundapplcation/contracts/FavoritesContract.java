@@ -17,9 +17,6 @@ public interface FavoritesContract {
     }
 
     interface Presenter {
-
-        void initAccessToken();
-
         void loadBusinessCardScreen(final int position);
 
         void initAdapter();

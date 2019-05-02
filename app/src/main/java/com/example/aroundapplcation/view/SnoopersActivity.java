@@ -38,7 +38,6 @@ public class SnoopersActivity extends AppCompatActivity implements SnoopersContr
 
         initFields();
 
-        presenter.initAccessToken();
         presenter.initSnoopers();
     }
 
@@ -68,10 +67,10 @@ public class SnoopersActivity extends AppCompatActivity implements SnoopersContr
     }
 
     private void initPresenter() {
-        final ApiInterface api = NetworkService.getInstance().getApiInterface();
         final SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE);
-        presenter = new SnoopersPresenter(this, api, sharedPreferences);
+        final ApiInterface api = NetworkService.getInstance(sharedPreferences).getApiInterface();
+        presenter = new SnoopersPresenter(this, api);
     }
 
     private void initFields() {

@@ -35,7 +35,6 @@ public class ShopActivity extends AppCompatActivity implements ShopContract.View
         initFields();
 
         presenter.initPremiumAccountToggleButton();
-        presenter.initAccessToken();
 
         addPremiumButtonListener();
     }
@@ -66,9 +65,9 @@ public class ShopActivity extends AppCompatActivity implements ShopContract.View
     }
 
     private void initPresenter() {
-        final ApiInterface api = NetworkService.getInstance().getApiInterface();
         final SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE);
+        final ApiInterface api = NetworkService.getInstance(sharedPreferences).getApiInterface();
         presenter = new ShopPresenter(this, api, sharedPreferences);
     }
 

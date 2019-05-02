@@ -19,8 +19,6 @@ public interface SnoopersContract {
     interface Presenter {
         void initSnoopers();
 
-        void initAccessToken();
-
         void loadBusinessCardScreen(final int position);
 
         void initAdapter();

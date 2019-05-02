@@ -21,7 +21,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.aroundapplcation.constants.SharedPreferencesConstants.ACCESS_TOKEN;
 import static com.example.aroundapplcation.constants.SharedPreferencesConstants.USER_ID;
 
 public class ProfilePresenter implements ProfileContract.Presenter {
@@ -30,7 +29,6 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     private final ApiInterface api;
     private final StorageReference storageReference;
 
-    private String accessToken;
     private BusinessCard businessCard;
 
     private Uri currentIconUri;
@@ -44,13 +42,8 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     }
 
     @Override
-    public void initAccessToken() {
-        accessToken = sharedPreferences.getString(ACCESS_TOKEN, "unknown");
-    }
-
-    @Override
     public void initBusinessCard() {
-        api.getBusinessCardByUserId(accessToken, getUserId()).enqueue(getBusinessCardByUserIdCallback());
+        api.getBusinessCardByUserId(getUserId()).enqueue(getBusinessCardByUserIdCallback());
     }
 
     private Callback<BusinessCard> getBusinessCardByUserIdCallback() {
@@ -108,7 +101,7 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     }
 
     private void saveBusinessCard() {
-        api.updateBusinessCard(accessToken, businessCard.getId(), businessCard).enqueue(getUpdateBusinessCardCallback());
+        api.updateBusinessCard(businessCard.getId(), businessCard).enqueue(getUpdateBusinessCardCallback());
     }
 
     private String getUserIconName() {
