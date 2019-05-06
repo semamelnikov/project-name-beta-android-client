@@ -14,8 +14,6 @@ public interface ShopContract {
     interface Presenter {
         void initPremiumAccountToggleButton();
 
-        void initAccessToken();
-
         void updatePremiumAccountStatus(final boolean isChecked);
 
         void loadSnoopersScreen();

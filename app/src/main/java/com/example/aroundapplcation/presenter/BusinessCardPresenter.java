@@ -1,7 +1,6 @@
 package com.example.aroundapplcation.presenter;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -16,24 +15,20 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.aroundapplcation.constants.IntentConstants.BUSINESS_CARD_ID;
-import static com.example.aroundapplcation.constants.SharedPreferencesConstants.ACCESS_TOKEN;
 
 public class BusinessCardPresenter implements BusinessCardContract.Presenter {
     private final BusinessCardContract.View view;
     private final Intent intent;
-    private final SharedPreferences sharedPreferences;
     private final ApiInterface api;
 
-    private String accessToken;
     private Integer businessCardId;
     private BusinessCard businessCard;
 
     public BusinessCardPresenter(final BusinessCardContract.View view, final Intent intent,
-                                 final SharedPreferences sharedPreferences, final ApiInterface api) {
+                                 final ApiInterface api) {
 
         this.view = view;
         this.intent = intent;
-        this.sharedPreferences = sharedPreferences;
         this.api = api;
     }
 
@@ -43,13 +38,8 @@ public class BusinessCardPresenter implements BusinessCardContract.Presenter {
     }
 
     @Override
-    public void initAccessToken() {
-        accessToken = sharedPreferences.getString(ACCESS_TOKEN, "unknown");
-    }
-
-    @Override
     public void getBusinessCard() {
-        api.getBusinessCard(accessToken, businessCardId).enqueue(getBusinessCardCallback());
+        api.getBusinessCard(businessCardId).enqueue(getBusinessCardCallback());
     }
 
     @Override
@@ -57,15 +47,15 @@ public class BusinessCardPresenter implements BusinessCardContract.Presenter {
         if (isFavorite) {
             final FavoriteCardAddRequest favoriteCardAddRequest = new FavoriteCardAddRequest();
             favoriteCardAddRequest.setCardId(businessCardId);
-            api.addCardIntoFavorites(accessToken, favoriteCardAddRequest).enqueue(getAddIntoFavoritesCallback());
+            api.addCardIntoFavorites(favoriteCardAddRequest).enqueue(getAddIntoFavoritesCallback());
         } else {
-            api.removeCardFromFavorites(accessToken, businessCardId).enqueue(getDeleteFromFavoritesCallback());
+            api.removeCardFromFavorites(businessCardId).enqueue(getDeleteFromFavoritesCallback());
         }
     }
 
     @Override
     public void initBusinessCardFavoriteStatus() {
-        api.isCardInFavorites(accessToken, businessCardId).enqueue(getIsCardInFavoritesCallback());
+        api.isCardInFavorites(businessCardId).enqueue(getIsCardInFavoritesCallback());
     }
 
     @Override

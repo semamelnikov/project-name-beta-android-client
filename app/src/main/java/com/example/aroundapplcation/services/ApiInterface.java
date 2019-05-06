@@ -17,7 +17,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -32,39 +31,34 @@ public interface ApiInterface {
     @POST("/auth/phone/check")
     Call<PhoneCheckResponse> sendCode(@Body PhoneCheckRequest phoneCheckRequest);
 
-    @GET("/cards/users/{userId}")
-    Call<BusinessCard> getBusinessCardByUserId(@Header("Authorization") String accessToken, @Path("userId") int userId);
-
     @POST("/auth/registration")
     Call<RegistrationResponse> sendRegistrationRequest(@Body RegistrationRequest registrationRequest);
 
+    @GET("/cards/users/{userId}")
+    Call<BusinessCard> getBusinessCardByUserId(@Path("userId") int userId);
+
     @GET("/cards/{id}")
-    Call<BusinessCard> getBusinessCard(@Header("Authorization") String accessToken, @Path("id") int id);
+    Call<BusinessCard> getBusinessCard(@Path("id") int id);
 
     @POST("/cards/{id}")
-    Call<BusinessCard> updateBusinessCard(@Header("Authorization") String accessToken,
-                                          @Path("id") int id,
+    Call<BusinessCard> updateBusinessCard(@Path("id") int id,
                                           @Body BusinessCard businessCard);
 
     @GET("/cards/favorites")
-    Call<List<BusinessCard>> getFavoritesBusinessCards(@Header("Authorization") String accessToken);
+    Call<List<BusinessCard>> getFavoritesBusinessCards();
 
     @POST("/cards/favorites")
-    Call<Void> addCardIntoFavorites(@Header("Authorization") String accessToken,
-                                    @Body FavoriteCardAddRequest favoriteCardAddRequest);
+    Call<Void> addCardIntoFavorites(@Body FavoriteCardAddRequest favoriteCardAddRequest);
 
     @DELETE("/cards/favorites/{cardId}")
-    Call<Void> removeCardFromFavorites(@Header("Authorization") String accessToken,
-                                       @Path("cardId") int cardId);
+    Call<Void> removeCardFromFavorites(@Path("cardId") int cardId);
 
     @GET("/cards/favorites/{cardId}/check")
-    Call<Boolean> isCardInFavorites(@Header("Authorization") String accessToken,
-                                    @Path("cardId") int cardId);
+    Call<Boolean> isCardInFavorites(@Path("cardId") int cardId);
 
     @GET("/premium/update/{userId}")
-    Call<Boolean> updateAccountPremiumStatus(@Header("Authorization") String accessToken,
-                                             @Path("userId") String userId);
+    Call<Boolean> updateAccountPremiumStatus(@Path("userId") String userId);
 
     @GET("/premium/snoopers")
-    Call<List<BusinessCard>> getSnoopers(@Header("Authorization") String accessToken);
+    Call<List<BusinessCard>> getSnoopers();
 }

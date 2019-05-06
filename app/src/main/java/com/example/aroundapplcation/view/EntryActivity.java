@@ -73,7 +73,7 @@ public class EntryActivity extends AppCompatActivity implements EntryContract.Vi
     private void initPresenter() {
         final SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE);
-        final ApiInterface api = NetworkService.getInstance().getApiInterface();
+        final ApiInterface api = NetworkService.getInstance(sharedPreferences).getApiInterface();
         presenter = new EntryPresenter(this, sharedPreferences, api);
     }
 

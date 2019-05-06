@@ -12,7 +12,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.aroundapplcation.constants.SharedPreferencesConstants.ACCESS_TOKEN;
 import static com.example.aroundapplcation.constants.SharedPreferencesConstants.PREMIUM_ACCOUNT;
 import static com.example.aroundapplcation.constants.SharedPreferencesConstants.USER_ID;
 
@@ -20,8 +19,6 @@ public class ShopPresenter implements ShopContract.Presenter {
     private final ShopContract.View view;
     private final ApiInterface api;
     private final SharedPreferences sharedPreferences;
-
-    private String accessToken;
 
     public ShopPresenter(final ShopContract.View view, final ApiInterface apiInterface,
                          final SharedPreferences sharedPreferences) {
@@ -38,13 +35,8 @@ public class ShopPresenter implements ShopContract.Presenter {
     }
 
     @Override
-    public void initAccessToken() {
-        accessToken = sharedPreferences.getString(ACCESS_TOKEN, "undefined");
-    }
-
-    @Override
     public void updatePremiumAccountStatus(final boolean isChecked) {
-        api.updateAccountPremiumStatus(accessToken, getUserId()).enqueue(getUpdatePremiumStatusCallback());
+        api.updateAccountPremiumStatus(getUserId()).enqueue(getUpdatePremiumStatusCallback());
     }
 
     @Override

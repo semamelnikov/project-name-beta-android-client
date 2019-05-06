@@ -33,6 +33,10 @@ public class BusinessCard {
     @Expose
     private String vkId;
 
+    @SerializedName("iconUri")
+    @Expose
+    private String iconUri;
+
     public BusinessCard() {
     }
 
@@ -90,5 +94,13 @@ public class BusinessCard {
 
     public void setVkId(String vkId) {
         this.vkId = vkId;
+    }
+
+    public String getIconUri() {
+        return iconUri;
+    }
+
+    public void setIconUri(String iconUri) {
+        this.iconUri = iconUri;
     }
 }

@@ -24,8 +24,6 @@ public interface BusinessCardContract {
     interface Presenter {
         void initBusinessCardId();
 
-        void initAccessToken();
-
         void getBusinessCard();
 
         void updateBusinessCardFavoritesStatus(final boolean isFavorite);

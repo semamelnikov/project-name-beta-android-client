@@ -9,13 +9,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.aroundapplcation.R;
 import com.example.aroundapplcation.contracts.LoginContract;
 import com.example.aroundapplcation.presenter.LoginPresenter;
 import com.example.aroundapplcation.services.ApiInterface;
 import com.example.aroundapplcation.services.NetworkService;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 
@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     private void initPresenter() {
         final SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE);
-        final ApiInterface api = NetworkService.getInstance().getApiInterface();
+        final ApiInterface api = NetworkService.getInstance(sharedPreferences).getApiInterface();
         presenter = new LoginPresenter(this, sharedPreferences, api);
     }
 

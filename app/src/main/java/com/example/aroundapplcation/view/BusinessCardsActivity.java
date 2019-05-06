@@ -119,9 +119,9 @@ public class BusinessCardsActivity extends AppCompatActivity implements Business
     }
 
     private void initPresenter() {
-        final ApiInterface api = NetworkService.getInstance().getApiInterface();
         final SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.aroUnd_preference_file_key), Context.MODE_PRIVATE);
+        final ApiInterface api = NetworkService.getInstance(sharedPreferences).getApiInterface();
         presenter = new BusinessCardsPresenter(this, Nearby.getConnectionsClient(this), sharedPreferences, api);
     }
 
