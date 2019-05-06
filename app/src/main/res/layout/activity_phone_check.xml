@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:text="@string/confirm"
         android:padding="16dp"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorOnPrimary"
         style="?android:attr/borderlessButtonStyle"
         android:onClick="clickConfirm"/>
 </LinearLayout>

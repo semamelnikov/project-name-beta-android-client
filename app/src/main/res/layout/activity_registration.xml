@@ -57,15 +57,15 @@
         android:padding="16dp"
         android:layout_margin="16dp"/>
 
-    <Button
-        android:id="@+id/btn_confirm_registration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/confirm"
-        android:padding="16dp"
-        android:textColor="@color/colorPrimaryDark"
-        style="?android:attr/borderlessButtonStyle"
-        android:onClick="clickConfirm"/>
+        <Button
+            android:id="@+id/btn_confirm_registration"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="clickConfirm"
+            android:padding="16dp"
+            android:text="@string/confirm"
+            android:textColor="@color/colorOnPrimary" />
     </LinearLayout>
 
 </ScrollView>
