@@ -82,7 +82,7 @@ public class BusinessCardsActivity extends AppCompatActivity implements Business
 
     @Override
     public void initAdapter(final List<AdvertiserBusinessCard> items) {
-        businessCardsAdapter = new BusinessCardsAdapter(items, presenter);
+        businessCardsAdapter = new BusinessCardsAdapter(items, presenter, this);
 
         businessCardsRecyclerView.setAdapter(businessCardsAdapter);
         businessCardsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
