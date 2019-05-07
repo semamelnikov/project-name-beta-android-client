@@ -43,7 +43,7 @@ public class SnoopersActivity extends AppCompatActivity implements SnoopersContr
 
     @Override
     public void initAdapter(final List<BusinessCard> items) {
-        snoopersAdapter = new SnoopersAdapter(items, presenter);
+        snoopersAdapter = new SnoopersAdapter(items, presenter, this);
 
         snoopersRecyclerView.setAdapter(snoopersAdapter);
         snoopersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
