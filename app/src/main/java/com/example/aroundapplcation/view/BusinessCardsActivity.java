@@ -158,8 +158,10 @@ public class BusinessCardsActivity extends AppCompatActivity implements Business
 
     @Override
     protected void onDestroy() {
+        if (presenter != null) {
+            presenter.stopAdvertising();
+            presenter.stopDiscovery();
+        }
         super.onDestroy();
-        presenter.stopAdvertising();
-        presenter.stopDiscovery();
     }
 }
