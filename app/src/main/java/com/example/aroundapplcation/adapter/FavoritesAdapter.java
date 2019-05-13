@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.aroundapplcation.R;
 import com.example.aroundapplcation.contracts.FavoritesContract;
 import com.example.aroundapplcation.model.BusinessCard;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.List;
 
@@ -51,9 +52,6 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         final TextView surnameTextView = holder.surnameTextView;
         surnameTextView.setText(businessCard.getSurname());
 
-        final TextView phoneTextView = holder.phoneTextView;
-        phoneTextView.setText(businessCard.getPhone());
-
         final ImageView iconImageView = holder.businessCardIconImageView;
         final String iconUri = businessCard.getIconUri();
         if (iconUri != null && !"".equals(iconUri)) {
@@ -77,15 +75,13 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
         private TextView nameTextView;
         private TextView surnameTextView;
-        private TextView phoneTextView;
-        private ImageView businessCardIconImageView;
+        private CircularImageView businessCardIconImageView;
 
         FavoritesAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
 
             nameTextView = itemView.findViewById(R.id.tv_name);
             surnameTextView = itemView.findViewById(R.id.tv_surname);
-            phoneTextView = itemView.findViewById(R.id.tv_phone);
             businessCardIconImageView = itemView.findViewById(R.id.business_card_icon);
 
             itemView.setOnClickListener(this);

@@ -9,6 +9,8 @@ public interface EntryContract {
         void navigateToPhoneCheckScreen(final String phoneNumber, final String registrationSessionId);
 
         void showToast(final String message);
+
+        void navigateToBusinessCardsScreen();
     }
 
     interface Presenter {
@@ -17,5 +19,7 @@ public interface EntryContract {
         void saveExistingPhoneNumberToStorage();
 
         void sendEntryRequest();
+
+        void navigateLoggedInUser();
     }
 }

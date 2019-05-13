@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -27,6 +26,7 @@ import com.example.aroundapplcation.services.ApiInterface;
 import com.example.aroundapplcation.services.NetworkService;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.io.IOException;
 
@@ -35,7 +35,7 @@ public class ProfileActivity extends BaseActivity implements ProfileContract.Vie
 
     private ProfileContract.Presenter presenter;
 
-    private ImageView iconImageView;
+    private CircularImageView iconImageView;
     private EditText nameEditText;
     private EditText surnameEditText;
     private EditText phoneEditText;

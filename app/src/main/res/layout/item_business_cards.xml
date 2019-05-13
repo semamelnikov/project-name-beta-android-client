@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/business_card_item_border"
     android:orientation="horizontal"
-    android:padding="16dp">
+    android:padding="8dp">
 
-    <ImageView
+    <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/business_card_icon"
-        android:layout_width="300px"
-        android:layout_height="300px"
-        android:padding="1dp"
-        android:scaleType="fitXY" />
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="2dp"
+        app:civ_shadow="true"
+        app:civ_shadow_color="#D6D5D5"
+        app:civ_shadow_radius="15" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="5"
-        android:orientation="vertical"
-        android:padding="16dp">
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="3"
+        android:fontFamily="sans-serif-smallcaps"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="Name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:text="Name" />
-
-        <TextView
-            android:id="@+id/tv_surname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:text="Surname" />
-
-        <TextView
-            android:id="@+id/tv_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:text="Phone" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_surname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="3"
+        android:fontFamily="sans-serif-smallcaps"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="Surname"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold" />
 </LinearLayout>

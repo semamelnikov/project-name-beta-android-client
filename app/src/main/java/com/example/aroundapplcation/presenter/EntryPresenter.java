@@ -3,17 +3,19 @@ package com.example.aroundapplcation.presenter;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.aroundapplcation.contracts.EntryContract;
 import com.example.aroundapplcation.model.EntryRequest;
 import com.example.aroundapplcation.model.EntryResponse;
 import com.example.aroundapplcation.services.ApiInterface;
 
-import androidx.annotation.NonNull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.aroundapplcation.constants.SharedPreferencesConstants.PHONE_NUMBER;
+import static com.example.aroundapplcation.constants.SharedPreferencesConstants.REFRESH_TOKEN;
 
 public class EntryPresenter implements EntryContract.Presenter {
 
@@ -47,6 +49,14 @@ public class EntryPresenter implements EntryContract.Presenter {
     @Override
     public void sendEntryRequest() {
         api.sendEntryRequest(entryRequest).enqueue(getEntryRequestCallback());
+    }
+
+    @Override
+    public void navigateLoggedInUser() {
+        final String refreshToken = sharedPreferences.getString(REFRESH_TOKEN, "");
+        if (refreshToken != null && !refreshToken.isEmpty()) {
+            view.navigateToBusinessCardsScreen();
+        }
     }
 
     private Callback<EntryResponse> getEntryRequestCallback() {

@@ -32,6 +32,8 @@ public class EntryActivity extends AppCompatActivity implements EntryContract.Vi
         initPresenter();
 
         initPhoneField();
+
+        presenter.navigateLoggedInUser();
     }
 
     public void confirmEntryPhone(View view) {
@@ -68,6 +70,13 @@ public class EntryActivity extends AppCompatActivity implements EntryContract.Vi
     @Override
     public void showToast(final String message) {
         Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void navigateToBusinessCardsScreen() {
+        Intent intent = new Intent(EntryActivity.this, BusinessCardsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     private void initPresenter() {
