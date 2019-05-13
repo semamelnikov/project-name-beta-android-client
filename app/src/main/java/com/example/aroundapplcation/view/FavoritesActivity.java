@@ -3,10 +3,10 @@ package com.example.aroundapplcation.view;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,7 +22,7 @@ import java.util.List;
 
 import static com.example.aroundapplcation.constants.IntentConstants.BUSINESS_CARD_ID;
 
-public class FavoritesActivity extends AppCompatActivity implements FavoritesContract.View {
+public class FavoritesActivity extends BaseActivity implements FavoritesContract.View {
 
     private FavoritesContract.Presenter presenter;
 
@@ -66,6 +66,13 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesCon
         Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        final MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.toolbar_favorites_menu, menu);
+        return true;
+    }
+
     private void initPresenter() {
         final SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.aroUnd_preference_file_key), MODE_PRIVATE);
@@ -74,8 +81,7 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesCon
     }
 
     private void initFields() {
-        Toolbar toolbar = findViewById(R.id.favorites_toolbar);
-        setSupportActionBar(toolbar);
+        initToolbar(R.id.favorites_toolbar, true);
 
         favoritesRecyclerView = findViewById(R.id.rv_favorites);
 

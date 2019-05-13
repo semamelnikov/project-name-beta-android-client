@@ -3,14 +3,13 @@ package com.example.aroundapplcation.view;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.example.aroundapplcation.R;
 import com.example.aroundapplcation.contracts.ShopContract;
@@ -18,7 +17,7 @@ import com.example.aroundapplcation.presenter.ShopPresenter;
 import com.example.aroundapplcation.services.ApiInterface;
 import com.example.aroundapplcation.services.NetworkService;
 
-public class ShopActivity extends AppCompatActivity implements ShopContract.View {
+public class ShopActivity extends BaseActivity implements ShopContract.View {
 
     private ShopContract.Presenter presenter;
 
@@ -60,6 +59,13 @@ public class ShopActivity extends AppCompatActivity implements ShopContract.View
         startActivity(intent);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        final MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.toolbar_shop_menu, menu);
+        return true;
+    }
+
     public void snoopersButtonClick(View view) {
         presenter.loadSnoopersScreen();
     }
@@ -72,8 +78,7 @@ public class ShopActivity extends AppCompatActivity implements ShopContract.View
     }
 
     private void initFields() {
-        Toolbar toolbar = findViewById(R.id.shop_toolbar);
-        setSupportActionBar(toolbar);
+        initToolbar(R.id.shop_toolbar, true);
 
         snoopersCheckButton = findViewById(R.id.snoopers_check_button);
         snoopersCheckButton.setEnabled(false);

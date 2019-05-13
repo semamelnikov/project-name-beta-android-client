@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,7 +20,7 @@ import java.util.List;
 
 import static com.example.aroundapplcation.constants.IntentConstants.BUSINESS_CARD_ID;
 
-public class SnoopersActivity extends AppCompatActivity implements SnoopersContract.View {
+public class SnoopersActivity extends BaseActivity implements SnoopersContract.View {
 
     private SnoopersContract.Presenter presenter;
 
@@ -74,8 +72,7 @@ public class SnoopersActivity extends AppCompatActivity implements SnoopersContr
     }
 
     private void initFields() {
-        Toolbar toolbar = findViewById(R.id.snoopers_toolbar);
-        setSupportActionBar(toolbar);
+        initToolbar(R.id.snoopers_toolbar, true);
 
         snoopersRecyclerView = findViewById(R.id.rv_snoopers);
 

@@ -3,6 +3,8 @@ package com.example.aroundapplcation.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 public class BusinessCard {
 
     @SerializedName("id")
@@ -102,5 +104,25 @@ public class BusinessCard {
 
     public void setIconUri(String iconUri) {
         this.iconUri = iconUri;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BusinessCard that = (BusinessCard) o;
+        return id == that.id &&
+                userId == that.userId &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(surname, that.surname) &&
+                Objects.equals(phone, that.phone) &&
+                Objects.equals(instagramId, that.instagramId) &&
+                Objects.equals(vkId, that.vkId) &&
+                Objects.equals(iconUri, that.iconUri);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, name, surname, phone, instagramId, vkId, iconUri);
     }
 }

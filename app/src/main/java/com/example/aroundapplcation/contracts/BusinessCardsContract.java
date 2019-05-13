@@ -13,12 +13,6 @@ public interface BusinessCardsContract {
         void updateBusinessCards();
 
         void navigateToBusinessCardScreen(final Integer businessCardId);
-
-        void navigateToShopScreen();
-
-        void navigateToFavoritesScreen();
-
-        void navigateToProfileScreen();
     }
 
     interface Presenter {
@@ -29,12 +23,6 @@ public interface BusinessCardsContract {
         void startDiscovering();
 
         void initAdapter();
-
-        void loadShopScreen();
-
-        void loadFavoritesScreen();
-
-        void loadProfileScreen();
 
         void stopDiscovery();
 

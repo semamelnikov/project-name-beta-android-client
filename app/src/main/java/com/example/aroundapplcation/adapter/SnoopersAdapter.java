@@ -57,12 +57,16 @@ public class SnoopersAdapter extends RecyclerView.Adapter<SnoopersAdapter.Snoope
 
         final ImageView iconImageView = holder.businessCardIconImageView;
         final String iconUri = businessCard.getIconUri();
-        if (iconUri != null && !"".equals(iconUri))
+        if (iconUri != null && !"".equals(iconUri)) {
             Glide.with(context)
                     .load(iconUri)
+                    .placeholder(R.drawable.person_default)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(300, 300)
                     .into(iconImageView);
+        } else {
+            iconImageView.setImageResource(R.drawable.person_default);
+        }
     }
 
     @Override

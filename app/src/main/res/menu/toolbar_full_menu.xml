@@ -4,19 +4,22 @@
 
     <item
         android:id="@+id/action_favorites"
+        android:icon="@drawable/ic_menu_favorites"
         android:orderInCategory="1"
-        android:title="Favorites"
-        app:showAsAction="never"></item>
+        android:title=""
+        app:showAsAction="ifRoom"></item>
 
     <item
         android:id="@+id/action_profile"
+        android:icon="@drawable/ic_menu_profile"
         android:orderInCategory="2"
-        android:title="My Card"
-        app:showAsAction="never"></item>
+        android:title=""
+        app:showAsAction="ifRoom"></item>
 
     <item
         android:id="@+id/action_shop"
+        android:icon="@drawable/ic_menu_shop"
         android:orderInCategory="3"
-        android:title="Shop"
-        app:showAsAction="never"></item>
+        android:title=""
+        app:showAsAction="ifRoom"></item>
 </menu>

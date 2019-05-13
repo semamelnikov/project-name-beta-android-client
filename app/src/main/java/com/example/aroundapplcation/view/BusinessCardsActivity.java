@@ -6,14 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,7 +28,7 @@ import java.util.List;
 
 import static com.example.aroundapplcation.constants.IntentConstants.BUSINESS_CARD_ID;
 
-public class BusinessCardsActivity extends AppCompatActivity implements BusinessCardsContract.View {
+public class BusinessCardsActivity extends BaseActivity implements BusinessCardsContract.View {
 
     private BusinessCardsContract.Presenter presenter;
 
@@ -100,24 +95,6 @@ public class BusinessCardsActivity extends AppCompatActivity implements Business
         startActivity(intent);
     }
 
-    @Override
-    public void navigateToShopScreen() {
-        Intent intent = new Intent(BusinessCardsActivity.this, ShopActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public void navigateToFavoritesScreen() {
-        Intent intent = new Intent(BusinessCardsActivity.this, FavoritesActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public void navigateToProfileScreen() {
-        Intent intent = new Intent(BusinessCardsActivity.this, ProfileActivity.class);
-        startActivity(intent);
-    }
-
     private void initPresenter() {
         final SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.aroUnd_preference_file_key), Context.MODE_PRIVATE);
@@ -127,33 +104,8 @@ public class BusinessCardsActivity extends AppCompatActivity implements Business
 
     private void initFields() {
         businessCardsRecyclerView = findViewById(R.id.rv_business_cards);
-        final Toolbar toolbar = findViewById(R.id.business_cards_toolbar);
-        setSupportActionBar(toolbar);
-
+        initToolbar(R.id.business_cards_toolbar, true);
         presenter.initAdapter();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        final MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.toolbar_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_favorites:
-                presenter.loadFavoritesScreen();
-                break;
-            case R.id.action_profile:
-                presenter.loadProfileScreen();
-                break;
-            case R.id.action_shop:
-                presenter.loadShopScreen();
-                break;
-        }
-        return true;
     }
 
     @Override

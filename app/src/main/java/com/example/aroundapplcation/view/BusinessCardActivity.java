@@ -12,8 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.aroundapplcation.R;
 import com.example.aroundapplcation.contracts.BusinessCardContract;
 import com.example.aroundapplcation.model.BusinessCard;
@@ -21,7 +19,7 @@ import com.example.aroundapplcation.presenter.BusinessCardPresenter;
 import com.example.aroundapplcation.services.ApiInterface;
 import com.example.aroundapplcation.services.NetworkService;
 
-public class BusinessCardActivity extends AppCompatActivity implements BusinessCardContract.View {
+public class BusinessCardActivity extends BaseActivity implements BusinessCardContract.View {
 
     private BusinessCardContract.Presenter presenter;
 
@@ -118,6 +116,8 @@ public class BusinessCardActivity extends AppCompatActivity implements BusinessC
         instagramButton = findViewById(R.id.instagram_button);
 
         favoritesToggleButton = findViewById(R.id.favorites_toggle_button);
+
+        initToolbar(R.id.business_card_toolbar, true);
     }
 
     private void addFavoritesToggleListener() {

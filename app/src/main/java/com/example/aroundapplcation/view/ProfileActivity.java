@@ -8,14 +8,14 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -30,7 +30,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 
-public class ProfileActivity extends AppCompatActivity implements ProfileContract.View {
+public class ProfileActivity extends BaseActivity implements ProfileContract.View {
     private final static int SELECT_PROFILE_IMAGE_REQUEST_CODE = 1;
 
     private ProfileContract.Presenter presenter;
@@ -55,8 +55,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     }
 
     private void initFields() {
-        Toolbar toolbar = findViewById(R.id.profile_toolbar);
-        setSupportActionBar(toolbar);
+        initToolbar(R.id.profile_toolbar, true);
         iconImageView = findViewById(R.id.iv_profile_icon);
         nameEditText = findViewById(R.id.et_profile_name);
         nameEditText.addTextChangedListener(getNameEditTextChangeListener());
@@ -131,10 +130,20 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         if (iconUri != null && !"".equals(iconUri)) {
             Glide.with(this)
                     .load(iconUri)
+                    .placeholder(R.drawable.person_default)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(400, 400)
                     .into(iconImageView);
+        } else {
+            iconImageView.setImageResource(R.drawable.add_person_photo);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        final MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.toolbar_profile_menu, menu);
+        return true;
     }
 
     private TextWatcher getPhoneEditTextChangeListener() {

@@ -81,21 +81,6 @@ public class BusinessCardsPresenter implements BusinessCardsContract.Presenter {
     }
 
     @Override
-    public void loadShopScreen() {
-        view.navigateToShopScreen();
-    }
-
-    @Override
-    public void loadFavoritesScreen() {
-        view.navigateToFavoritesScreen();
-    }
-
-    @Override
-    public void loadProfileScreen() {
-        view.navigateToProfileScreen();
-    }
-
-    @Override
     public void stopDiscovery() {
         if (connectionsClient != null) {
             connectionsClient.stopDiscovery();
@@ -141,7 +126,8 @@ public class BusinessCardsPresenter implements BusinessCardsContract.Presenter {
                 final AdvertiserBusinessCard advertiserBusinessCard = new AdvertiserBusinessCard();
                 advertiserBusinessCard.setBusinessCard(businessCard);
                 advertiserBusinessCard.setEndpointId(endpointId);
-                advertiserBusinessCards.add(advertiserBusinessCard);
+
+                updateBusinessCards(advertiserBusinessCard);
 
                 view.updateBusinessCards();
             }
@@ -152,6 +138,20 @@ public class BusinessCardsPresenter implements BusinessCardsContract.Presenter {
                 Log.e("Entry error", t.getMessage());
             }
         };
+    }
+
+    private void updateBusinessCards(final AdvertiserBusinessCard advertiserBusinessCard) {
+        int existingCardIndex = -1;
+        for (int i = 0; i < advertiserBusinessCards.size() && existingCardIndex < 0; i++) {
+            final AdvertiserBusinessCard currentAdvertiserBusinessCard = advertiserBusinessCards.get(i);
+            if (currentAdvertiserBusinessCard.getBusinessCard().getId() == advertiserBusinessCard.getBusinessCard().getId()) {
+                existingCardIndex = i;
+            }
+        }
+        if (existingCardIndex >= 0) {
+            advertiserBusinessCards.remove(existingCardIndex);
+        }
+        advertiserBusinessCards.add(advertiserBusinessCard);
     }
 
     private ConnectionLifecycleCallback getConnectionLifecycleCallback() {
