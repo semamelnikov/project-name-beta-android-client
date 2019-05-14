@@ -35,6 +35,14 @@ public class BusinessCard {
     @Expose
     private String vkId;
 
+    @SerializedName("facebookId")
+    @Expose
+    private String facebookId;
+
+    @SerializedName("twitterId")
+    @Expose
+    private String twitterId;
+
     @SerializedName("iconUri")
     @Expose
     private String iconUri;
@@ -106,6 +114,22 @@ public class BusinessCard {
         this.iconUri = iconUri;
     }
 
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+
+    public String getTwitterId() {
+        return twitterId;
+    }
+
+    public void setTwitterId(String twitterId) {
+        this.twitterId = twitterId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -118,11 +142,13 @@ public class BusinessCard {
                 Objects.equals(phone, that.phone) &&
                 Objects.equals(instagramId, that.instagramId) &&
                 Objects.equals(vkId, that.vkId) &&
+                Objects.equals(facebookId, that.facebookId) &&
+                Objects.equals(twitterId, that.twitterId) &&
                 Objects.equals(iconUri, that.iconUri);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, name, surname, phone, instagramId, vkId, iconUri);
+        return Objects.hash(id, userId, name, surname, phone, instagramId, vkId, facebookId, twitterId, iconUri);
     }
 }

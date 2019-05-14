@@ -18,6 +18,7 @@ import com.example.aroundapplcation.model.AdvertiserBusinessCard;
 import com.example.aroundapplcation.model.BusinessCard;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BusinessCardsAdapter extends RecyclerView.Adapter<BusinessCardsAdapter.ViewHolder> {
@@ -55,6 +56,8 @@ public class BusinessCardsAdapter extends RecyclerView.Adapter<BusinessCardsAdap
         final TextView surnameTextView = holder.surnameTextView;
         surnameTextView.setText(businessCard.getSurname());
 
+        initSocialMediaIcons(businessCard, holder);
+
         final ImageView iconImageView = holder.businessCardIconImageView;
         final String iconUri = businessCard.getIconUri();
         if (iconUri != null && !"".equals(iconUri)) {
@@ -75,18 +78,44 @@ public class BusinessCardsAdapter extends RecyclerView.Adapter<BusinessCardsAdap
         return advertiserBusinessCards.size();
     }
 
+    private void initSocialMediaIcons(final BusinessCard businessCard, final ViewHolder holder) {
+        final List<ImageView> mediaIcons = holder.mediaImageViews;
+        if (businessCard.getVkId() != null && !businessCard.getVkId().isEmpty()) {
+            mediaIcons.get(0).setImageResource(R.drawable.ic_bw_vk);
+        }
+        if (businessCard.getFacebookId() != null && !businessCard.getFacebookId().isEmpty()) {
+            mediaIcons.get(1).setImageResource(R.drawable.ic_bw_facebook);
+        }
+        if (businessCard.getInstagramId() != null && !businessCard.getInstagramId().isEmpty()) {
+            mediaIcons.get(2).setImageResource(R.drawable.ic_bw_instagram);
+        }
+        if (businessCard.getTwitterId() != null && !businessCard.getTwitterId().isEmpty()) {
+            mediaIcons.get(3).setImageResource(R.drawable.ic_bw_twitter);
+        }
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private final static int MEDIA_VIEW_COUNT = 4;
 
         private TextView nameTextView;
         private TextView surnameTextView;
         private CircularImageView businessCardIconImageView;
+        private List<ImageView> mediaImageViews;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            mediaImageViews = new ArrayList<>();
             nameTextView = itemView.findViewById(R.id.tv_name);
             surnameTextView = itemView.findViewById(R.id.tv_surname);
             businessCardIconImageView = itemView.findViewById(R.id.business_card_icon);
+
+            for (int i = 0; i < MEDIA_VIEW_COUNT; i++) {
+                final String currentIconId = "iv_media_icon_" + i;
+                final int iconId = itemView.getResources().getIdentifier(currentIconId, "id", context.getPackageName());
+                final ImageView imageView = itemView.findViewById(iconId);
+                mediaImageViews.add(imageView);
+            }
 
             itemView.setOnClickListener(this);
         }
