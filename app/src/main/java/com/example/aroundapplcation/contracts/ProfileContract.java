@@ -27,10 +27,14 @@ public interface ProfileContract {
 
         void saveSurname(final String surname);
 
-        void saveVk(final String vkId);
+        void saveVk(final String vkLink);
 
         void saveInstagram(final String instagramId);
 
         void saveIconPath(final Uri iconUri);
+
+        void saveTwitter(final String twitterId);
+
+        void saveFacebook(final String facebookLink);
     }
 }

@@ -3,16 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_favorites"
+        android:id="@+id/action_ok"
+        android:icon="@drawable/ic_ok"
         android:orderInCategory="1"
-        android:icon="@drawable/ic_menu_favorites"
-        android:title=""
-        app:showAsAction="ifRoom"></item>
-
-    <item
-        android:id="@+id/action_shop"
-        android:orderInCategory="2"
-        android:icon="@drawable/ic_menu_shop"
         android:title=""
         app:showAsAction="ifRoom"></item>
 </menu>

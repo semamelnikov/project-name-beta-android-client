@@ -155,6 +155,16 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     }
 
     @Override
+    public void saveTwitter(final String twitterId) {
+        businessCard.setTwitterId(twitterId);
+    }
+
+    @Override
+    public void saveFacebook(final String facebookLink) {
+        businessCard.setFacebookId(facebookLink);
+    }
+
+    @Override
     public void saveIconPath(final Uri iconUri) {
         currentIconUri = iconUri;
         view.updateIconByMemoryImage(currentIconUri);

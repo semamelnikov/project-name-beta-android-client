@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -41,6 +42,8 @@ public class ProfileActivity extends BaseActivity implements ProfileContract.Vie
     private EditText phoneEditText;
     private EditText vkEditText;
     private EditText instagramEditText;
+    private EditText facebookEditText;
+    private EditText twitterEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,10 @@ public class ProfileActivity extends BaseActivity implements ProfileContract.Vie
         vkEditText.addTextChangedListener(getVkEditTextChangeListener());
         instagramEditText = findViewById(R.id.et_profile_instagram);
         instagramEditText.addTextChangedListener(getInstagramEditTextChangeListener());
+        facebookEditText = findViewById(R.id.et_profile_facebook);
+        facebookEditText.addTextChangedListener(getFacebookEditTextChangeListener());
+        twitterEditText = findViewById(R.id.et_profile_twitter);
+        twitterEditText.addTextChangedListener(getTwitterEditTextChangeListener());
     }
 
     private void initPresenter() {
@@ -77,7 +84,7 @@ public class ProfileActivity extends BaseActivity implements ProfileContract.Vie
         presenter = new ProfilePresenter(this, sharedPreferences, api, storageReference);
     }
 
-    public void updateBusinessCard(View view) {
+    public void updateBusinessCard() {
         presenter.updateBusinessCard();
     }
 
@@ -143,6 +150,14 @@ public class ProfileActivity extends BaseActivity implements ProfileContract.Vie
     public boolean onCreateOptionsMenu(Menu menu) {
         final MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.toolbar_profile_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_ok) {
+            updateBusinessCard();
+        }
         return true;
     }
 
@@ -227,6 +242,44 @@ public class ProfileActivity extends BaseActivity implements ProfileContract.Vie
             @Override
             public void afterTextChanged(Editable s) {
                 presenter.saveInstagram(s.toString());
+            }
+        };
+    }
+
+    private TextWatcher getTwitterEditTextChangeListener() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                presenter.saveTwitter(s.toString());
+            }
+        };
+    }
+
+    private TextWatcher getFacebookEditTextChangeListener() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                presenter.saveFacebook(s.toString());
             }
         };
     }
