@@ -62,11 +62,13 @@ public class BusinessCardPresenter implements BusinessCardContract.Presenter {
     public void initSocialMediaButtons() {
         view.updateEnableVkButtonState(businessCard.getVkId() != null && !"".equals(businessCard.getVkId()));
         view.updateEnableInstagramButtonState(businessCard.getInstagramId() != null && !"".equals(businessCard.getInstagramId()));
+        view.updateEnableFacebookButtonState(businessCard.getFacebookId() != null && !"".equals(businessCard.getFacebookId()));
+        view.updateEnableTwitterButtonState(businessCard.getTwitterId() != null && !"".equals(businessCard.getTwitterId()));
     }
 
     @Override
     public void loadVkApp() {
-        final String uri = "https://vk.com/" + businessCard.getVkId();
+        final String uri = businessCard.getVkId();
         view.navigateToVkApp(uri);
     }
 
@@ -74,6 +76,22 @@ public class BusinessCardPresenter implements BusinessCardContract.Presenter {
     public void loadInstagramApp() {
         final String uri = "https://www.instagram.com/" + businessCard.getInstagramId() + "/";
         view.navigateToInstagramApp(uri);
+    }
+
+    @Override
+    public void loadFacebookApp() {
+        final String uri = businessCard.getFacebookId();
+        view.navigateToFacebookApp(uri);
+    }
+
+    @Override
+    public void loadTwitterApp() {
+        String twitterName = businessCard.getTwitterId();
+        if (twitterName.startsWith("@")) {
+            twitterName = twitterName.substring(1);
+        }
+        final String uri = "https://twitter.com/" + twitterName;
+        view.navigateToTwitterApp(uri);
     }
 
     private Callback<Boolean> getIsCardInFavoritesCallback() {
@@ -114,6 +132,7 @@ public class BusinessCardPresenter implements BusinessCardContract.Presenter {
         return new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                view.updateFavoriteToggleButton(true);
                 view.showToast("Successful!");
             }
 
@@ -129,6 +148,7 @@ public class BusinessCardPresenter implements BusinessCardContract.Presenter {
         return new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                view.updateFavoriteToggleButton(false);
                 view.showToast("Successful!");
             }
 

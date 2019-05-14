@@ -112,6 +112,8 @@ public class ProfileActivity extends BaseActivity implements ProfileContract.Vie
         phoneEditText.setText(businessCard.getPhone());
         vkEditText.setText(businessCard.getVkId());
         instagramEditText.setText(businessCard.getInstagramId());
+        facebookEditText.setText(businessCard.getFacebookId());
+        twitterEditText.setText(businessCard.getTwitterId());
     }
 
     @Override

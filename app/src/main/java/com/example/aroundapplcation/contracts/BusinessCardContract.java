@@ -19,6 +19,14 @@ public interface BusinessCardContract {
         void navigateToInstagramApp(final String instagramUri);
 
         void addListenerToFavoritesToggleButton();
+
+        void navigateToFacebookApp(final String facebookUri);
+
+        void navigateToTwitterApp(final String twitterUri);
+
+        void updateEnableFacebookButtonState(final boolean isEnabled);
+
+        void updateEnableTwitterButtonState(final boolean isEnabled);
     }
 
     interface Presenter {
@@ -35,5 +43,9 @@ public interface BusinessCardContract {
         void loadVkApp();
 
         void loadInstagramApp();
+
+        void loadFacebookApp();
+
+        void loadTwitterApp();
     }
 }
