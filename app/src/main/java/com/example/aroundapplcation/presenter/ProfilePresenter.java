@@ -51,8 +51,8 @@ public class ProfilePresenter implements ProfileContract.Presenter {
             @Override
             public void onResponse(@NonNull Call<BusinessCard> call, @NonNull Response<BusinessCard> response) {
                 businessCard = response.body();
-                view.updateBusinessCardFields(businessCard);
                 loadCardIcon();
+                view.updateBusinessCardFields(businessCard);
             }
 
             @Override

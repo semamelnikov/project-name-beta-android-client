@@ -13,9 +13,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -36,6 +38,8 @@ public class ProfileActivity extends BaseActivity implements ProfileContract.Vie
 
     private ProfileContract.Presenter presenter;
 
+    private ConstraintLayout profileContent;
+
     private CircularImageView iconImageView;
     private EditText nameEditText;
     private EditText surnameEditText;
@@ -45,10 +49,18 @@ public class ProfileActivity extends BaseActivity implements ProfileContract.Vie
     private EditText facebookEditText;
     private EditText twitterEditText;
 
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        progressBar = findViewById(R.id.profile_progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
+
+        profileContent = findViewById(R.id.profile_content);
+        profileContent.setVisibility(View.GONE);
 
         initPresenter();
 
@@ -114,6 +126,12 @@ public class ProfileActivity extends BaseActivity implements ProfileContract.Vie
         instagramEditText.setText(businessCard.getInstagramId());
         facebookEditText.setText(businessCard.getFacebookId());
         twitterEditText.setText(businessCard.getTwitterId());
+
+        progressBar = findViewById(R.id.profile_progress_bar);
+        progressBar.setVisibility(View.GONE);
+
+        profileContent = findViewById(R.id.profile_content);
+        profileContent.setVisibility(View.VISIBLE);
     }
 
     @Override
