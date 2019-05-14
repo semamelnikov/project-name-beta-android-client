@@ -97,6 +97,8 @@ public class ProfileActivity extends BaseActivity implements ProfileContract.Vie
     }
 
     public void updateBusinessCard() {
+        progressBar.setVisibility(View.VISIBLE);
+        profileContent.setVisibility(View.GONE);
         presenter.updateBusinessCard();
     }
 
@@ -127,10 +129,7 @@ public class ProfileActivity extends BaseActivity implements ProfileContract.Vie
         facebookEditText.setText(businessCard.getFacebookId());
         twitterEditText.setText(businessCard.getTwitterId());
 
-        progressBar = findViewById(R.id.profile_progress_bar);
         progressBar.setVisibility(View.GONE);
-
-        profileContent = findViewById(R.id.profile_content);
         profileContent.setVisibility(View.VISIBLE);
     }
 

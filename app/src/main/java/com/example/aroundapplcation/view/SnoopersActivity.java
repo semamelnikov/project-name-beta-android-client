@@ -3,6 +3,8 @@ package com.example.aroundapplcation.view;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,10 +29,15 @@ public class SnoopersActivity extends BaseActivity implements SnoopersContract.V
     private RecyclerView snoopersRecyclerView;
     private SnoopersAdapter snoopersAdapter;
 
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_snoopers);
+
+        progressBar = findViewById(R.id.snoopers_progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
 
         initPresenter();
 
@@ -50,6 +57,9 @@ public class SnoopersActivity extends BaseActivity implements SnoopersContract.V
     @Override
     public void updateSnoopers() {
         snoopersAdapter.notifyDataSetChanged();
+
+        progressBar.setVisibility(View.GONE);
+        snoopersRecyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -75,6 +85,7 @@ public class SnoopersActivity extends BaseActivity implements SnoopersContract.V
         initToolbar(R.id.snoopers_toolbar, true);
 
         snoopersRecyclerView = findViewById(R.id.rv_snoopers);
+        snoopersRecyclerView.setVisibility(View.GONE);
 
         presenter.initAdapter();
     }

@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,10 +31,15 @@ public class FavoritesActivity extends BaseActivity implements FavoritesContract
     private RecyclerView favoritesRecyclerView;
     private FavoritesAdapter favoritesAdapter;
 
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
+
+        progressBar = findViewById(R.id.favorites_progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
 
         initPresenter();
 
@@ -52,6 +59,9 @@ public class FavoritesActivity extends BaseActivity implements FavoritesContract
     @Override
     public void updateFavorites() {
         favoritesAdapter.notifyDataSetChanged();
+
+        progressBar.setVisibility(View.GONE);
+        favoritesRecyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -84,6 +94,7 @@ public class FavoritesActivity extends BaseActivity implements FavoritesContract
         initToolbar(R.id.favorites_toolbar, true);
 
         favoritesRecyclerView = findViewById(R.id.rv_favorites);
+        favoritesRecyclerView.setVisibility(View.GONE);
 
         presenter.initAdapter();
     }
