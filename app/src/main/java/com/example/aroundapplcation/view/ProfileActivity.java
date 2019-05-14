@@ -137,7 +137,7 @@ public class ProfileActivity extends BaseActivity implements ProfileContract.Vie
     @Override
     public void updateIconByLoadedImage(final String iconUri) {
         if (iconUri != null && !"".equals(iconUri)) {
-            Glide.with(this)
+            Glide.with(getApplicationContext())
                     .load(iconUri)
                     .placeholder(R.drawable.person_default)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)

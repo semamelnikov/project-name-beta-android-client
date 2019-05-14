@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -95,6 +97,15 @@ public class BusinessCardsActivity extends BaseActivity implements BusinessCards
         startActivity(intent);
     }
 
+    public void logout() {
+        final SharedPreferences sharedPreferences = getSharedPreferences(
+                getString(R.string.aroUnd_preference_file_key), Context.MODE_PRIVATE);
+        sharedPreferences.edit().clear().apply();
+        Intent intent = new Intent(BusinessCardsActivity.this, EntryActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
     private void initPresenter() {
         final SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.aroUnd_preference_file_key), Context.MODE_PRIVATE);
@@ -104,7 +115,15 @@ public class BusinessCardsActivity extends BaseActivity implements BusinessCards
 
     private void initFields() {
         businessCardsRecyclerView = findViewById(R.id.rv_business_cards);
-        initToolbar(R.id.business_cards_toolbar, true);
+        final Toolbar toolbar = findViewById(R.id.business_cards_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_exit);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
         presenter.initAdapter();
     }
 

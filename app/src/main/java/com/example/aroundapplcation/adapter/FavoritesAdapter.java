@@ -58,7 +58,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         final ImageView iconImageView = holder.businessCardIconImageView;
         final String iconUri = businessCard.getIconUri();
         if (iconUri != null && !"".equals(iconUri)) {
-            Glide.with(context)
+            Glide.with(holder.itemView.getContext())
                     .load(iconUri)
                     .placeholder(R.drawable.person_default)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)

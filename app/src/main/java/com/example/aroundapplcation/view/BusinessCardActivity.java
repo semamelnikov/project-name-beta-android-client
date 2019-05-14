@@ -60,7 +60,7 @@ public class BusinessCardActivity extends BaseActivity implements BusinessCardCo
 
         final String iconUri = businessCard.getIconUri();
         if (iconUri != null && !"".equals(iconUri)) {
-            Glide.with(this)
+            Glide.with(getApplicationContext())
                     .load(iconUri)
                     .placeholder(R.drawable.person_default)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
