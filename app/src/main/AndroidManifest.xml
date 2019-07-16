@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.aroundapplcation">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +16,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".view.SnoopersActivity"
+            android:label="Your Snoopers"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".view.ProfileActivity"
+            android:label="Your Card"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.FavoritesActivity"
+            android:label="Favorites"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.ShopActivity"
+            android:label="Shop"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.BusinessCardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.RegistrationActivity"
+            android:label="Registration" />
+        <activity
+            android:name=".view.PhoneCheckActivity"
+            android:label="Phone Check" />
+        <activity
+            android:name=".view.BusinessCardsActivity"
+            android:label="Cards Around U"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.LoginActivity"
+            android:label="" />
+        <activity android:name=".view.EntryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
